@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mverse.AI - Custom Automation Suite Builder & Cart</title>
+  <meta name="description" content="Audit your business bottlenecks, unlock custom AI workflow recommendations, calculate your monthly ROI, and build your bespoke automation suite.">
+
+  <!-- Modern Premium Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-dark">
+  <!-- Glowing Background Orbs -->
+  <div class="glow-orb glow-orb-1" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb-2" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb-3" aria-hidden="true"></div>
+
+  <!-- Header Navigation -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <span class="logo-text">Mverse<span class="gradient-text">.AI</span></span>
+      </div>
+
+      <nav class="desktop-nav" aria-label="Main Navigation">
+        <ul>
+          <li><a href="#how-it-works" class="nav-link">How it Works</a></li>
+          <li><a href="#features" class="nav-link">Solutions</a></li>
+          <li><a href="#pricing" class="nav-link">ROI Framework</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Interactive Cart Toggle -->
+        <button id="cart-toggle-btn" class="btn-cart-toggle" aria-label="Toggle Cart View">
+          <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="cart-badge-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Body Wrapper -->
+  <main class="main-content-wrapper">
+    <div class="container main-grid">
+
+      <!-- Primary Action Area: Wizard / Recommendations -->
+      <section class="primary-card-panel" aria-live="polite">
+
+        <!-- Welcome Hero View (Wizard Step 0) -->
+        <div id="welcome-step" class="welcome-container active-step">
+          <div class="hero-badge">Next-Gen Autonomous Infrastructure</div>
+          <h1 class="hero-heading">Build Your Bespoke <br><span class="gradient-text glow-text">AI Automation Suite</span></h1>
+          <p class="hero-subtext">
+            Audit your company's bottlenecks in 2 minutes. Receive custom-tailored AI workflow agents, calculate real-time monthly ROI, and deploy your custom automations instantly.
+          </p>
+          <div class="hero-actions">
+            <button id="start-audit-btn" class="btn btn-primary btn-glow">
+              <span>Begin Diagnostics</span>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+
+          <div class="features-preview-grid">
+            <div class="preview-item">
+              <span class="preview-number">95%</span>
+              <span class="preview-label">Manual Task Reduction</span>
+            </div>
+            <div class="preview-item">
+              <span class="preview-number">24/7</span>
+              <span class="preview-label">Autonomous Operation</span>
+            </div>
+            <div class="preview-item">
+              <span class="preview-number">10x</span>
+              <span class="preview-label">Average Labor ROI</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diagnostic Wizard Form Container -->
+        <div id="diagnostic-wizard" class="wizard-container hidden-step">
+          <!-- Step Tracker -->
+          <div class="step-tracker-bar">
+            <div class="tracker-fill" style="width: 20%"></div>
+            <div class="tracker-steps-labels">
+              <span class="step-label active" data-step="1">Profile</span>
+              <span class="step-label" data-step="2">Roles</span>
+              <span class="step-label" data-step="3">System</span>
+              <span class="step-label" data-step="4">Contact</span>
+            </div>
+          </div>
+
+          <form id="diagnostic-form" novalidate>
+            <!-- Wizard Step 1: Business Profile -->
+            <div id="wizard-step-1" class="wizard-step active-step">
+              <h2 class="step-heading">Tell us about your business</h2>
+              <p class="step-subheading">This helps our recommendation engine map out workflows tailored to your exact needs.</p>
+
+              <div class="form-group">
+                <label for="company-name" class="form-label">Company Name</label>
+                <input type="text" id="company-name" class="form-input" placeholder="e.g. Acme Corp" required>
+                <span class="form-error-msg" id="name-error">Please enter your company name</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Industry / Niche</label>
+                <select id="industry-select" class="form-input select-input" required>
+                  <option value="" disabled selected>Select your industry</option>
+                  <option value="ecommerce">E-commerce & Retail</option>
+                  <option value="realestate">Real Estate & Finance</option>
+                  <option value="agency">Professional Services / Agency</option>
+                  <option value="healthcare">Healthcare & Medical</option>
+                  <option value="saas">SaaS & Technology</option>
+                  <option value="other">Other</option>
+                </select>
+                <span class="form-error-msg" id="industry-error">Please select your industry</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Company Size</label>
+                <select id="company-size" class="form-input select-input" required>
+                  <option value="" disabled selected>Select company size</option>
+                  <option value="1-10">1 - 10 employees</option>
+                  <option value="11-50">11 - 50 employees</option>
+                  <option value="51-200">51 - 200 employees</option>
+                  <option value="201+">201+ employees</option>
+                </select>
+                <span class="form-error-msg" id="size-error">Please select your company size</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Primary Goal for AI</label>
+                <div class="bottleneck-selectors goals-selectors">
+                  <label class="bottleneck-chip-card">
+                    <input type="checkbox" name="goals" value="reduce_costs">
+                    <div class="chip-card-inner">
+                      <div class="chip-text">
+                        <h3>📉 Reduce costs</h3>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="bottleneck-chip-card">
+                    <input type="checkbox" name="goals" value="scale_operations">
+                    <div class="chip-card-inner">
+                      <div class="chip-text">
+                        <h3>🚀 Scale operations</h3>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="bottleneck-chip-card">
+                    <input type="checkbox" name="goals" value="improve_response">
+                    <div class="chip-card-inner">
+                      <div class="chip-text">
+                        <h3>⚡ Improve response times</h3>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="bottleneck-chip-card">
+                    <input type="checkbox" name="goals" value="eliminate_repetitive">
+                    <div class="chip-card-inner">
+                      <div class="chip-text">
+                        <h3>🤖 Eliminate repetitive tasks</h3>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+                <span class="form-error-msg" id="goals-error">Please select at least one goal</span>
+              </div>
+            </div>
+
+            <!-- Wizard Step 2: Operational Roles & Team Mapping -->
+            <div id="wizard-step-2" class="wizard-step hidden-step">
+              <h2 class="step-heading">Operational Roles & Team Mapping</h2>
+              <p class="step-subheading">Select the roles currently present in your organization that you are looking to optimize, automate, or support with AI agents.</p>
+
+              <div class="accordion-roles-container" id="roles-accordion-container">
+                <!-- Dynamically generated by app.js -->
+              </div>
+              <button type="button" class="btn btn-outline" id="add-custom-role-btn" style="margin-top: 15px;">+ Add Custom Role</button>
+              <span class="form-error-msg" id="roles-error">Please select at least one role and task to audit</span>
+            </div>
+
+            <!-- Wizard Step 3: Bottlenecks & Security -->
+            <div id="wizard-step-3" class="wizard-step hidden-step">
+              <h2 class="step-heading">Bottlenecks & Security</h2>
+              <p class="step-subheading">Help us understand your current tech stack constraints.</p>
+
+              <div class="form-group">
+                <label for="current-software" class="form-label">Current Software/Tools Used</label>
+                <textarea id="current-software" class="form-input textarea-input" placeholder="e.g. HubSpot, Slack, Zapier, Shopify, Zendesk" rows="3" required></textarea>
+                <span class="form-error-msg" id="software-error">Please list your current software</span>
+              </div>
+
+              <div class="form-group">
+                <label for="biggest-bottleneck" class="form-label">Biggest Operational Bottleneck</label>
+                <textarea id="biggest-bottleneck" class="form-input textarea-input" placeholder="What is the number one thing slowing your team down right now?" rows="3" required></textarea>
+                <span class="form-error-msg" id="bottleneck-error">Please describe your biggest bottleneck</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Data Privacy/Security Constraints</label>
+                <select id="security-constraints" class="form-input select-input" required>
+                  <option value="" disabled selected>Select constraints</option>
+                  <option value="none">None / Standard</option>
+                  <option value="hipaa">HIPAA Compliance</option>
+                  <option value="gdpr">GDPR / SOC2</option>
+                  <option value="high">High Security / Proprietary Data</option>
+                </select>
+                <span class="form-error-msg" id="security-error">Please select a security constraint</span>
+              </div>
+            </div>
+
+            <!-- Wizard Step 4: Contact & Next Steps -->
+            <div id="wizard-step-4" class="wizard-step hidden-step">
+              <h2 class="step-heading">Next Steps & Contact</h2>
+              <p class="step-subheading">Who should we send the automated blueprint to?</p>
+
+              <div class="form-group">
+                <label for="contact-name" class="form-label">Full Name</label>
+                <input type="text" id="contact-name" class="form-input" placeholder="Jane Doe" required>
+                <span class="form-error-msg" id="contact-name-error">Please enter your name</span>
+              </div>
+
+              <div class="form-group">
+                <label for="contact-email" class="form-label">Work Email</label>
+                <input type="email" id="contact-email" class="form-input" placeholder="jane@company.com" required>
+                <span class="form-error-msg" id="contact-email-error">Please enter a valid work email</span>
+              </div>
+
+              <div class="form-group">
+                <label for="contact-phone" class="form-label">Phone Number</label>
+                <input type="tel" id="contact-phone" class="form-input" placeholder="(555) 555-5555">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Desired Timeline for Implementation</label>
+                <select id="implementation-timeline" class="form-input select-input" required>
+                  <option value="" disabled selected>Select timeline</option>
+                  <option value="immediately">Immediately</option>
+                  <option value="1month">Within 1 month</option>
+                  <option value="3months">2-3 months</option>
+                  <option value="exploring">Just exploring</option>
+                </select>
+                <span class="form-error-msg" id="timeline-error">Please select a timeline</span>
+              </div>
+            </div>
+
+            <!-- Wizard Navigation Buttons -->
+            <div class="wizard-footer-actions">
+              <button type="button" id="prev-step-btn" class="btn btn-outline disabled" disabled>Back</button>
+              <button type="button" id="next-step-btn" class="btn btn-primary">
+                <span>Continue</span>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Dynamic Recommendations Report Container (Loaded after form submission) -->
+        <div id="recommendations-container" class="recommendations-view hidden-step">
+          <div class="results-header-box">
+            <div class="report-meta">
+              <span class="badge badge-success">Diagnostics Complete</span>
+              <h2 class="report-title">Mverse Optimization Audit</h2>
+              <p class="report-lead">Simple automations mapped for <span id="dyn-company-name" class="dynamic-highlight">Your Company</span> to replace repeated manual work.</p>
+            </div>
+
+            <div class="metric-score-card">
+              <div class="circular-progress">
+                <svg viewBox="0 0 36 36" class="circular-chart">
+                  <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path class="circle-fill" stroke-dasharray="90, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <text x="18" y="20.35" class="circle-percentage">90%</text>
+                </svg>
+              </div>
+              <div class="score-desc">
+                <span class="score-num">AI Viability Score</span>
+                <span class="score-tier">Tier 1: Extreme Efficiency Target</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filters or view tabs -->
+          <div class="results-filters-bar">
+            <h3>Recommended Workflows</h3>
+            <div class="filter-toggles">
+              <button class="filter-btn active" data-filter="all">All Recommended</button>
+              <button class="filter-btn" data-filter="matched">Primary Gaps</button>
+            </div>
+          </div>
+
+          <!-- Automated recommendation grid -->
+          <div id="workflows-grid" class="workflows-deck">
+            <!-- Dynamic automation workflow cards will be rendered here by app.js -->
+          </div>
+
+          <div class="custom-proposal-banner">
+            <div class="banner-content">
+              <h4>Need a custom corporate automation?</h4>
+              <p>Our expert developers can design bespoke integration scripts tailored specifically for legacy enterprise systems.</p>
+            </div>
+            <button id="trigger-consult-btn" class="btn btn-outline">Consult Solutions Architect</button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Sidebar Area: Active Cart & Live ROI Calculator -->
+      <aside class="sidebar-cart-panel" id="cart-aside">
+        <div class="sidebar-sticky-inner">
+          <div class="cart-header">
+            <h3>Your Automation Cart</h3>
+            <span class="cart-item-count-pill"><span id="cart-sidebar-count">0</span> items</span>
+          </div>
+
+          <!-- Empty Cart Placeholder -->
+          <div id="cart-empty-state" class="cart-empty-container">
+            <div class="empty-icon">🛒</div>
+            <h4>Your cart is empty</h4>
+            <p>Complete the business diagnostic audit to unlock your highly tailored AI automations and add them here.</p>
+          </div>
+
+          <!-- Filled Cart UI -->
+          <div id="cart-filled-state" class="cart-filled-container hidden-element">
+            <!-- Selected workflows scroll list -->
+            <ul id="cart-items-list" class="cart-items-deck">
+              <!-- Rendered dynamically by app.js -->
+            </ul>
+
+            <!-- Dynamic Interactive ROI Counter Card -->
+            <div class="cart-roi-glow-card">
+              <div class="roi-glow-header">
+                <div class="roi-pulse"></div>
+                <span>Monthly Return On Investment</span>
+              </div>
+              <div class="roi-metric-body">
+                <div class="roi-col">
+                  <span class="roi-metric-label">Labor Recaptured</span>
+                  <div class="roi-metric-num"><span id="roi-hours-saved">0</span> hrs/mo</div>
+                </div>
+                <div class="roi-col border-left">
+                  <span class="roi-metric-label">Estimated Value</span>
+                  <div class="roi-metric-num text-gradient"><span id="roi-dollars-saved">$0</span>/mo</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Standard vs Express toggle -->
+            <div class="delivery-options-box">
+              <div class="delivery-toggle-label">
+                <strong>Deployment Timeline</strong>
+                <span>Express deployment prioritizes engineering kickoff</span>
+              </div>
+              <div class="timeline-switch-group">
+                <label class="timeline-switch-btn">
+                  <input type="radio" name="timeline-urgency" value="standard" checked>
+                  <div class="switch-btn-inner">
+                    <span>Standard</span>
+                    <span class="timeline-detail">14 days</span>
+                  </div>
+                </label>
+                <label class="timeline-switch-btn">
+                  <input type="radio" name="timeline-urgency" value="express">
+                  <div class="switch-btn-inner">
+                    <span>Express 🚀</span>
+                    <span class="timeline-detail">3 days (+20%)</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Price Breakdown Summary -->
+            <div class="price-breakdown-card">
+              <div class="breakdown-row">
+                <span>Monthly Subtotal (Retainer)</span>
+                <span class="breakdown-val">$<span id="summary-monthly-subtotal">0</span>/mo</span>
+              </div>
+              <div class="breakdown-row">
+                <span>One-Time Engineering Setup</span>
+                <span class="breakdown-val">$<span id="summary-setup-subtotal">0</span></span>
+              </div>
+              <div class="breakdown-row express-charge-row hidden-element" id="summary-express-row">
+                <span>Express Engineering Kickoff</span>
+                <span class="breakdown-val text-accent">+$<span id="summary-express-charge">0</span></span>
+              </div>
+
+              <div class="breakdown-divider"></div>
+
+              <div class="breakdown-row total-row">
+                <div>
+                  <span class="total-main-label">Estimated First Month</span>
+                  <span class="total-sub-label">Setup + 1st Month Retainer</span>
+                </div>
+                <span class="total-price-val">$<span id="summary-first-month-total">0</span></span>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <button id="checkout-trigger-btn" class="btn btn-primary btn-checkout-action btn-glow">
+              <span>Review & Deploy Suite</span>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </button>
+            <button id="book-strategy-btn" type="button" class="btn btn-outline" style="width: 100%; margin-top: 10px; border-color: var(--color-cyan); color: var(--color-cyan);">
+              <span>📅 Book Strategy Call</span>
+            </button>
+            <p class="checkout-footer-assurance">🔒 Secured by Mverse.AI Escrow. 100% Satisfaction Guarantee.</p>
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Interactive Modal: Checkout Panel -->
+  <dialog id="checkout-modal" class="checkout-fullscreen-dialog">
+    <div class="checkout-dialog-content">
+      <button class="dialog-close-x" commandfor="checkout-modal" command="close" aria-label="Close dialog">×</button>
+
+      <div class="checkout-grid-container">
+        <!-- Billing Details Panel -->
+        <div class="checkout-billing-form-panel">
+          <div class="checkout-form-header">
+            <span class="secure-badge">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              Secure Mverse.AI Billing Link
+            </span>
+            <h2>Configure Deployment Billing</h2>
+            <p>Deploying a custom-configured AI suite via Mverse.AI. Start your 50% deposit and standard authorization to lock in engineers.</p>
+          </div>
+
+          <form id="payment-form" novalidate>
+            <div class="form-group">
+              <label for="checkout-email" class="form-label">Corporate Contact Email</label>
+              <input type="email" id="checkout-email" class="form-input" placeholder="you@company.com" required>
+              <span class="form-error-msg" id="checkout-email-error">Please enter a valid business email</span>
+            </div>
+
+            <!-- Stripe Card Cardform Simulator -->
+            <div class="cardform-wrapper">
+              <label class="form-label">Payment Information</label>
+
+              <!-- Glassmorphic Card Preview -->
+              <div class="glass-payment-card-preview" id="payment-card-visual">
+                <div class="glass-card-inner">
+                  <div class="card-front">
+                    <div class="card-chip-brand">
+                      <div class="emv-chip"></div>
+                      <div class="card-brand-logo" id="visual-card-logo">Visa</div>
+                    </div>
+                    <div class="card-number-visual" id="visual-card-number">•••• •••• •••• ••••</div>
+                    <div class="card-meta-row">
+                      <div class="meta-col">
+                        <span class="card-meta-label">Card Holder</span>
+                        <div class="card-meta-val" id="visual-card-holder">YOUR COMPANY</div>
+                      </div>
+                      <div class="meta-col">
+                        <span class="card-meta-label">Expires</span>
+                        <div class="card-meta-val" id="visual-card-expiry">MM/YY</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-back">
+                    <div class="magnetic-strip"></div>
+                    <div class="signature-cvv-row">
+                      <div class="sig-pad">MVERSE.AI SECURE ESCROW</div>
+                      <div class="cvv-visual-box" id="visual-card-cvv">•••</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Credit Card Fields -->
+              <div class="card-inputs-grid">
+                <div class="form-group span-all">
+                  <label for="card-holder-name" class="form-label font-small">Cardholder Name</label>
+                  <input type="text" id="card-holder-name" class="form-input" placeholder="e.g. John Doe" required>
+                  <span class="form-error-msg" id="card-holder-error">Enter name as shown on card</span>
+                </div>
+
+                <div class="form-group span-all">
+                  <label for="card-number" class="form-label font-small">Card Number</label>
+                  <div class="card-number-input-wrapper">
+                    <input type="text" id="card-number" class="form-input font-mono" placeholder="4000 1234 5678 9010" maxlength="19" required>
+                    <span class="input-card-type-icon" id="field-card-icon">💳</span>
+                  </div>
+                  <span class="form-error-msg" id="card-number-error">Please enter a valid card number</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="card-expiry" class="form-label font-small">Expiration Date</label>
+                  <input type="text" id="card-expiry" class="form-input font-mono" placeholder="MM/YY" maxlength="5" required>
+                  <span class="form-error-msg" id="card-expiry-error">Invalid date</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="card-cvv" class="form-label font-small">CVV</label>
+                  <input type="text" id="card-cvv" class="form-input font-mono" placeholder="123" maxlength="4" required>
+                  <span class="form-error-msg" id="card-cvv-error">Invalid CVV</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Authorization Checkbox -->
+            <label class="checkout-agreement-checkbox">
+              <input type="checkbox" id="terms-accept" required>
+              <span class="checkbox-custom"></span>
+              <span class="checkbox-text">I authorize a setup deposit of 50% for the custom engineering phase, and agree to the Mverse.AI Service Level Agreement.</span>
+            </label>
+            <span class="form-error-msg" id="terms-error">You must accept the terms to deploy</span>
+
+            <!-- Submit & Go Back Buttons Grid -->
+            <div class="checkout-actions-flex-grid">
+              <button type="submit" id="btn-pay-submit" class="btn btn-primary btn-checkout-action btn-glow">
+                <span>Authorize & Deposit $<span id="btn-pay-total">0</span></span>
+              </button>
+              <button type="button" class="btn btn-outline btn-return-cart btn-checkout-action">
+                <span>← Cancel & Go Back</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Order Summary Dashboard Sidebar -->
+        <div class="checkout-order-summary-sidebar">
+          <h3>Suite Configuration</h3>
+
+          <ul class="checkout-summary-list" id="checkout-summary-items-list">
+            <!-- Populated dynamically by app.js -->
+          </ul>
+
+          <div class="total-escrow-pricing-card">
+            <div class="escrow-header">
+              <span>First Month Deposit Total</span>
+              <p>50% setup fee + first month's retainer</p>
+            </div>
+            <div class="escrow-price-sum">$<span id="checkout-summary-total">0</span></div>
+
+            <div class="invoice-installments-schedule">
+              <div class="installment">
+                <span>Charged Today (50% Setup + retainer)</span>
+                <strong>$<span id="schedule-today-charge">0</span></strong>
+              </div>
+              <div class="installment text-muted">
+                <span>Charged at System Kickoff (50% Setup balance)</span>
+                <strong>$<span id="schedule-balance-charge">0</span></strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="checkout-support-assurances">
+            <div class="assurance-item">
+              <span class="ass-icon">🛡️</span>
+              <div class="ass-text">
+                <strong>Secured Escrow Account</strong>
+                <p>Funds are held until engineering stages are green-lit by your staff.</p>
+              </div>
+            </div>
+            <div class="assurance-item">
+              <span class="ass-icon">⚡</span>
+              <div class="ass-text">
+                <strong>Rapid Engineering Call</strong>
+                <p>Onboarding architect scheduled immediately after authorization.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Interactive Modal: Success Dashboard (confetti triggered) -->
+  <dialog id="success-modal" class="success-fullscreen-dialog">
+    <div class="success-card-content">
+      <div class="success-header">
+        <div class="success-badge-pulse">✓</div>
+        <h2>Automation Suite Commissioned!</h2>
+        <p>Your AI infrastructure builds are officially underway. Engineering teams are spinning up.</p>
+      </div>
+
+      <div class="invoice-grid-receipt">
+        <div class="receipt-header">
+          <div>
+            <h3>Receipt & Statement</h3>
+            <span class="receipt-invoice-num">Invoice ID: <span id="receipt-id" class="font-mono">#MVR-8392-A</span></span>
+          </div>
+          <span class="receipt-badge">Deposit Settled</span>
+        </div>
+
+        <div class="receipt-meta-grid">
+          <div>
+            <span class="r-label">Client</span>
+            <span class="r-val" id="receipt-client-name">Acme Corp</span>
+          </div>
+          <div>
+            <span class="r-label">Date Authorized</span>
+            <span class="r-val" id="receipt-date">May 20, 2026</span>
+          </div>
+          <div>
+            <span class="r-label">Deployment Plan</span>
+            <span class="r-val text-accent" id="receipt-delivery-tier">Standard Deployment</span>
+          </div>
+          <div>
+            <span class="r-label">First Bill Settled</span>
+            <span class="r-val" id="receipt-settled-total">$1,250</span>
+          </div>
+        </div>
+
+        <div class="receipt-items-list-wrapper">
+          <ul class="receipt-items-ul" id="receipt-items-list">
+            <!-- Dynamic receipt items -->
+          </ul>
+        </div>
+      </div>
+
+      <!-- Live Booking Scheduler Simulator -->
+      <div class="booking-scheduler-container">
+        <h3>Schedule Your Technical Integration Audit</h3>
+        <p>Book your 30-minute infrastructure blueprint session with your assigned Lead Automation Architect.</p>
+
+        <div class="calendar-booking-simulator">
+          <div class="cal-days-row">
+            <button class="cal-day">
+              <span class="day-lbl">Thu</span>
+              <span class="day-num">21</span>
+            </button>
+            <button class="cal-day active-day">
+              <span class="day-lbl">Fri</span>
+              <span class="day-num">22</span>
+            </button>
+            <button class="cal-day">
+              <span class="day-lbl">Mon</span>
+              <span class="day-num">25</span>
+            </button>
+            <button class="cal-day">
+              <span class="day-lbl">Tue</span>
+              <span class="day-num">26</span>
+            </button>
+            <button class="cal-day">
+              <span class="day-lbl">Wed</span>
+              <span class="day-num">27</span>
+            </button>
+          </div>
+
+          <div class="cal-slots-grid">
+            <button class="cal-slot">9:00 AM (EST)</button>
+            <button class="cal-slot active-slot">11:30 AM (EST)</button>
+            <button class="cal-slot">2:00 PM (EST)</button>
+            <button class="cal-slot">4:30 PM (EST)</button>
+          </div>
+
+          <button id="confirm-booking-btn" class="btn btn-primary btn-booking">
+            <span>Confirm Onboarding Session: May 22, 11:30 AM</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="success-footer-actions">
+        <button id="success-done-btn" class="btn btn-outline">Close Dashboard & Return</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- App Application Logic -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
