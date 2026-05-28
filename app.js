@@ -3,7 +3,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 const supabase = createClient(
   'https://jusytlefuvoyvprwgxph.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1c3l0bGVmdXZveXZwcndneHBoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMDUxNTgsImV4cCI6MjA5NDg4MTE1OH0.84CATTtrEFehCnynWrK3JMxmZErNnALuMNourzGHkrs'
+  'sb_publishable_nDMPVglXBq4fWUixij9zWg_5wjMdQkW'
 );
 
 /* ==========================================================================
@@ -991,6 +991,7 @@ async function saveLead(submissionType) {
     submission_type: submissionType
   }).select('id').single();
 
+  if (error) console.error('[saveLead] Supabase insert error:', error);
   if (!error && data?.id) state.leadId = data.id;
   return state.leadId;
 }
