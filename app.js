@@ -281,7 +281,9 @@ const DOM = {
   addCustomRoleBtn: document.getElementById('add-custom-role-btn'),
 
   // Step 3
-  softwareInput: document.getElementById('current-software'),
+  softwareChips: document.getElementById('software-chips'),
+  softwareOtherCb: document.getElementById('software-other-cb'),
+  softwareOtherInput: document.getElementById('software-other-input'),
   bottleneckInput: document.getElementById('biggest-bottleneck'),
   securitySelect: document.getElementById('security-constraints'),
 
@@ -393,6 +395,16 @@ function bindFormWizard() {
   });
 
   DOM.goalsCheckboxes = document.querySelectorAll('input[name="goals"]');
+
+  DOM.softwareOtherCb.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      DOM.softwareOtherInput.classList.remove('hidden-element');
+      DOM.softwareOtherInput.focus();
+    } else {
+      DOM.softwareOtherInput.classList.add('hidden-element');
+      DOM.softwareOtherInput.value = '';
+    }
+  });
 
   DOM.addCustomRoleBtn.addEventListener('click', () => {
     const customId = `custom_role_${Date.now()}`;
@@ -578,7 +590,12 @@ function validateStep(step) {
   }
 
   if (step === 3) {
-    state.softwareUsed = DOM.softwareInput.value.trim();
+    const checkedTools = [...document.querySelectorAll('input[name="software"]:checked')]
+      .filter(cb => cb.value !== 'other')
+      .map(cb => cb.value);
+    const otherText = DOM.softwareOtherCb.checked ? DOM.softwareOtherInput.value.trim() : '';
+    if (otherText) checkedTools.push(otherText);
+    state.softwareUsed = checkedTools.join(', ');
     if (!state.softwareUsed) {
       document.getElementById('software-error').style.display = 'block';
       isValid = false;
