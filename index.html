@@ -203,9 +203,24 @@
               <p class="step-subheading">Help us understand your current tech stack constraints.</p>
 
               <div class="form-group">
-                <label for="current-software" class="form-label">Current Software/Tools Used</label>
-                <textarea id="current-software" class="form-input textarea-input" placeholder="e.g. HubSpot, Slack, Zapier, Shopify, Zendesk" rows="3" required></textarea>
-                <span class="form-error-msg" id="software-error">Please list your current software</span>
+                <label class="form-label">Current Software/Tools Used</label>
+                <div class="software-chips-grid" id="software-chips">
+                  <label class="software-chip"><input type="checkbox" name="software" value="Google Apps"><div class="chip-inner"><span class="chip-icon">📊</span><span>Google Apps</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="Zapier"><div class="chip-inner"><span class="chip-icon">⚡</span><span>Zapier</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="n8n"><div class="chip-inner"><span class="chip-icon">🔧</span><span>n8n</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="Slack"><div class="chip-inner"><span class="chip-icon">💬</span><span>Slack</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="Notion"><div class="chip-inner"><span class="chip-icon">📝</span><span>Notion</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="Airtable"><div class="chip-inner"><span class="chip-icon">📋</span><span>Airtable</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="HubSpot"><div class="chip-inner"><span class="chip-icon">🎯</span><span>HubSpot</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="Mailchimp"><div class="chip-inner"><span class="chip-icon">📧</span><span>Mailchimp</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="GoHighLevel"><div class="chip-inner"><span class="chip-icon">🚀</span><span>GoHighLevel</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="WhatsApp"><div class="chip-inner"><span class="chip-icon">📱</span><span>WhatsApp</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="QuickBooks"><div class="chip-inner"><span class="chip-icon">💰</span><span>QuickBooks</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="Apple Mail"><div class="chip-inner"><span class="chip-icon">✉️</span><span>Apple Mail</span></div></label>
+                  <label class="software-chip" id="software-other-chip"><input type="checkbox" name="software" value="other" id="software-other-cb"><div class="chip-inner"><span class="chip-icon">➕</span><span>Other</span></div></label>
+                </div>
+                <input type="text" id="software-other-input" class="form-input software-other-input hidden-element" placeholder="Type other tools, e.g. Shopify, Zendesk…">
+                <span class="form-error-msg" id="software-error">Please select at least one tool</span>
               </div>
 
               <div class="form-group">

@@ -247,7 +247,10 @@ const state = {
   manualHours: 15,
   hourlyRate: 40,
   cart: new Set(),
-  deliveryTimeline: 'standard'
+  deliveryTimeline: 'standard',
+
+  // Set after successful lead save
+  leadId: null
 };
 
 const HEADCOUNT_FACTOR = {
@@ -278,7 +281,9 @@ const DOM = {
   addCustomRoleBtn: document.getElementById('add-custom-role-btn'),
 
   // Step 3
-  softwareInput: document.getElementById('current-software'),
+  softwareChips: document.getElementById('software-chips'),
+  softwareOtherCb: document.getElementById('software-other-cb'),
+  softwareOtherInput: document.getElementById('software-other-input'),
   bottleneckInput: document.getElementById('biggest-bottleneck'),
   securitySelect: document.getElementById('security-constraints'),
 
@@ -390,6 +395,16 @@ function bindFormWizard() {
   });
 
   DOM.goalsCheckboxes = document.querySelectorAll('input[name="goals"]');
+
+  DOM.softwareOtherCb.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      DOM.softwareOtherInput.classList.remove('hidden-element');
+      DOM.softwareOtherInput.focus();
+    } else {
+      DOM.softwareOtherInput.classList.add('hidden-element');
+      DOM.softwareOtherInput.value = '';
+    }
+  });
 
   DOM.addCustomRoleBtn.addEventListener('click', () => {
     const customId = `custom_role_${Date.now()}`;
@@ -575,7 +590,12 @@ function validateStep(step) {
   }
 
   if (step === 3) {
-    state.softwareUsed = DOM.softwareInput.value.trim();
+    const checkedTools = [...document.querySelectorAll('input[name="software"]:checked')]
+      .filter(cb => cb.value !== 'other')
+      .map(cb => cb.value);
+    const otherText = DOM.softwareOtherCb.checked ? DOM.softwareOtherInput.value.trim() : '';
+    if (otherText) checkedTools.push(otherText);
+    state.softwareUsed = checkedTools.join(', ');
     if (!state.softwareUsed) {
       document.getElementById('software-error').style.display = 'block';
       isValid = false;
@@ -905,12 +925,13 @@ function bindCheckoutSimulator() {
       DOM.btnPaySubmit.setAttribute('disabled', 'true');
       DOM.btnPaySubmit.querySelector('span').textContent = 'Authorizing Escrow Lock... 🔒';
 
-      setTimeout(() => {
+      setTimeout(async () => {
         DOM.checkoutModal.close();
         populateSuccessReceipt(false);
-        saveLead('checkout');
+        await saveLead('checkout');
         DOM.successModal.showModal();
         launchConfetti();
+        showProposalLink();
         DOM.btnPaySubmit.removeAttribute('disabled');
       }, 2000);
     });
@@ -927,7 +948,7 @@ async function saveLead(submissionType) {
   });
   const expressCharge = state.deliveryTimeline === 'express' ? Math.round(totalSetup * 0.2) : 0;
 
-  await supabase.from('leads').insert({
+  const { data, error } = await supabase.from('leads').insert({
     company_name: state.companyName,
     industry: state.industry,
     company_size: state.companySize,
@@ -947,14 +968,21 @@ async function saveLead(submissionType) {
     setup_total: totalSetup,
     first_month_total: totalMonthly + totalSetup + expressCharge,
     submission_type: submissionType
-  });
+  }).select('id').single();
+
+  if (!error && data?.id) {
+    state.leadId = data.id;
+  }
+
+  return state.leadId;
 }
 
-function showStrategySuccessModal() {
+async function showStrategySuccessModal() {
   populateSuccessReceipt(true);
-  saveLead('strategy_call');
+  await saveLead('strategy_call');
   DOM.successModal.showModal();
   launchConfetti();
+  showProposalLink();
 }
 
 function populateSuccessReceipt(isStrategySession) {
@@ -1013,6 +1041,23 @@ function updateBookingConfirmBtnText() {
     DOM.confirmBookingBtn.removeAttribute('disabled');
     DOM.confirmBookingBtn.querySelector('span').textContent = `Confirm Session: ${activeDay.querySelector('.day-lbl').textContent} ${activeDay.querySelector('.day-num').textContent} @ ${activeSlot.textContent}`;
   }
+}
+
+function showProposalLink() {
+  if (!state.leadId) return;
+  const existing = document.getElementById('proposal-link-btn');
+  if (existing) return;
+
+  const proposalUrl = `${window.location.origin}/${state.leadId}`;
+  const btn = document.createElement('a');
+  btn.id = 'proposal-link-btn';
+  btn.href = proposalUrl;
+  btn.target = '_blank';
+  btn.className = 'btn btn-outline';
+  btn.style.cssText = 'width:100%; max-width:320px; padding:0.85rem; margin-top:0.75rem; display:flex; justify-content:center; gap:0.5rem; text-decoration:none;';
+  btn.innerHTML = '<span>🔗 View Your AI Proposal</span>';
+
+  DOM.successDoneBtn.parentElement.appendChild(btn);
 }
 
 document.addEventListener('DOMContentLoaded', init);

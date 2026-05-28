@@ -1,0 +1,4 @@
+# Route /[lead-uuid] to the proposal page
+# Static asset requests (js/css/html files) are NOT matched by Netlify redirects,
+# so this only catches unknown paths — i.e. the UUID-based proposal URLs.
+/*  /proposal.html  200
