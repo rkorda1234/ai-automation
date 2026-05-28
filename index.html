@@ -289,6 +289,24 @@
 
         <!-- Dynamic Recommendations Report Container (Loaded after form submission) -->
         <div id="recommendations-container" class="recommendations-view hidden-step">
+
+          <!-- Proposal building notification -->
+          <div class="proposal-building-banner">
+            <div class="pbb-left">
+              <div class="pbb-pulse-ring"><div class="pbb-pulse-dot"></div></div>
+              <div class="pbb-text">
+                <h4>Your personalised AI proposal is being built</h4>
+                <p>Our agents are analysing your answers and crafting a tailored automation blueprint. We'll send it to <strong id="banner-email">your email</strong> shortly.</p>
+              </div>
+            </div>
+            <span class="pbb-status-chip">Generating…</span>
+          </div>
+
+          <div class="generic-recs-note">
+            <span class="generic-note-icon">⬇️</span>
+            <p>While you wait — here are our most popular packages. Your proposal will recommend only the ones that match your exact tool stack and goals.</p>
+          </div>
+
           <div class="results-header-box">
             <div class="report-meta">
               <span class="badge badge-success">Diagnostics Complete</span>

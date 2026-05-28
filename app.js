@@ -655,7 +655,14 @@ function validateStep(step) {
 /* ==========================================================================
    SUBMIT DIAGNOSTICS & RECOMMENDATIONS ENGINE
    ========================================================================== */
-function submitDiagnostics() {
+async function submitDiagnostics() {
+  // Save lead immediately so n8n Workflow 1 fires straight away
+  await saveLead('form_submit');
+
+  // Populate banner email
+  const bannerEmail = document.getElementById('banner-email');
+  if (bannerEmail) bannerEmail.textContent = state.contactEmail || 'your email';
+
   let baseScore = 65;
   baseScore += state.goals.length * 5;
   baseScore += state.roles.length * 4;
@@ -948,6 +955,20 @@ async function saveLead(submissionType) {
   });
   const expressCharge = state.deliveryTimeline === 'express' ? Math.round(totalSetup * 0.2) : 0;
 
+  // If lead already saved on form submit, update the row with cart data
+  if (state.leadId && submissionType !== 'form_submit') {
+    await supabase.from('leads').update({
+      selected_workflows: cartItems,
+      delivery_timeline: state.deliveryTimeline,
+      monthly_total: totalMonthly,
+      setup_total: totalSetup,
+      first_month_total: totalMonthly + totalSetup + expressCharge,
+      submission_type: submissionType
+    }).eq('id', state.leadId);
+    return state.leadId;
+  }
+
+  // First save — on form submission
   const { data, error } = await supabase.from('leads').insert({
     company_name: state.companyName,
     industry: state.industry,
@@ -970,10 +991,7 @@ async function saveLead(submissionType) {
     submission_type: submissionType
   }).select('id').single();
 
-  if (!error && data?.id) {
-    state.leadId = data.id;
-  }
-
+  if (!error && data?.id) state.leadId = data.id;
   return state.leadId;
 }
 

@@ -2340,6 +2340,111 @@ p {
 }
 
 /* ==========================================================================
+   PROPOSAL BUILDING BANNER
+   ========================================================================== */
+
+.proposal-building-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  background: linear-gradient(135deg, rgba(255, 98, 64, 0.08) 0%, rgba(255, 138, 110, 0.05) 100%);
+  border: 1px solid rgba(255, 98, 64, 0.3);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.pbb-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.pbb-pulse-ring {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgba(255, 98, 64, 0.1);
+  border: 1px solid rgba(255, 98, 64, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: pbbRingPulse 2s infinite;
+}
+
+.pbb-pulse-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--color-cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--color-cyan);
+  animation: pulseDot 1.5s infinite;
+}
+
+@keyframes pbbRingPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 98, 64, 0.3); }
+  50% { box-shadow: 0 0 0 6px rgba(255, 98, 64, 0); }
+}
+
+.pbb-text h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.pbb-text p {
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.pbb-text strong {
+  color: var(--color-cyan);
+}
+
+.pbb-status-chip {
+  background: rgba(255, 98, 64, 0.1);
+  color: var(--color-cyan);
+  border: 1px solid rgba(255, 98, 64, 0.3);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 99px;
+  white-space: nowrap;
+  animation: pbbRingPulse 2s infinite;
+}
+
+.generic-recs-note {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 10px;
+  padding: 0.75rem 1.1rem;
+  margin-bottom: 1.75rem;
+}
+
+.generic-note-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.generic-recs-note p {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
    INTAKE FORM STYLES
    ========================================================================== */
 
