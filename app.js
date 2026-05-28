@@ -247,7 +247,10 @@ const state = {
   manualHours: 15,
   hourlyRate: 40,
   cart: new Set(),
-  deliveryTimeline: 'standard'
+  deliveryTimeline: 'standard',
+
+  // Set after successful lead save
+  leadId: null
 };
 
 const HEADCOUNT_FACTOR = {
@@ -905,12 +908,13 @@ function bindCheckoutSimulator() {
       DOM.btnPaySubmit.setAttribute('disabled', 'true');
       DOM.btnPaySubmit.querySelector('span').textContent = 'Authorizing Escrow Lock... 🔒';
 
-      setTimeout(() => {
+      setTimeout(async () => {
         DOM.checkoutModal.close();
         populateSuccessReceipt(false);
-        saveLead('checkout');
+        await saveLead('checkout');
         DOM.successModal.showModal();
         launchConfetti();
+        showProposalLink();
         DOM.btnPaySubmit.removeAttribute('disabled');
       }, 2000);
     });
@@ -921,13 +925,27 @@ async function saveLead(submissionType) {
   const cartItems = [...state.cart];
   let totalMonthly = 0;
   let totalSetup = 0;
-  cartItems.forEach(id => {
+
+  // Build full workflow objects so the Claude agent has name/price/context
+  const selectedWorkflows = cartItems.map(id => {
     const wf = WORKFLOWS_CATALOG.find(w => w.id === id);
-    if (wf) { totalMonthly += wf.price; totalSetup += wf.setupFee; }
+    if (!wf) return { id };
+    totalMonthly += wf.price;
+    totalSetup += wf.setupFee;
+    return {
+      id: wf.id,
+      name: wf.name,
+      price: wf.price,
+      setupFee: wf.setupFee,
+      hoursSaved: wf.hoursSaved,
+      tagline: wf.tagline,
+      category: wf.category
+    };
   });
+
   const expressCharge = state.deliveryTimeline === 'express' ? Math.round(totalSetup * 0.2) : 0;
 
-  await supabase.from('leads').insert({
+  const { data, error } = await supabase.from('leads').insert({
     company_name: state.companyName,
     industry: state.industry,
     company_size: state.companySize,
@@ -941,20 +959,27 @@ async function saveLead(submissionType) {
     contact_email: state.contactEmail,
     contact_phone: state.contactPhone || null,
     implementation_timeline: state.timeline,
-    selected_workflows: cartItems,
+    selected_workflows: selectedWorkflows,
     delivery_timeline: state.deliveryTimeline,
     monthly_total: totalMonthly,
     setup_total: totalSetup,
     first_month_total: totalMonthly + totalSetup + expressCharge,
     submission_type: submissionType
-  });
+  }).select('id').single();
+
+  if (!error && data?.id) {
+    state.leadId = data.id;
+  }
+
+  return state.leadId;
 }
 
-function showStrategySuccessModal() {
+async function showStrategySuccessModal() {
   populateSuccessReceipt(true);
-  saveLead('strategy_call');
+  await saveLead('strategy_call');
   DOM.successModal.showModal();
   launchConfetti();
+  showProposalLink();
 }
 
 function populateSuccessReceipt(isStrategySession) {
@@ -1013,6 +1038,23 @@ function updateBookingConfirmBtnText() {
     DOM.confirmBookingBtn.removeAttribute('disabled');
     DOM.confirmBookingBtn.querySelector('span').textContent = `Confirm Session: ${activeDay.querySelector('.day-lbl').textContent} ${activeDay.querySelector('.day-num').textContent} @ ${activeSlot.textContent}`;
   }
+}
+
+function showProposalLink() {
+  if (!state.leadId) return;
+  const existing = document.getElementById('proposal-link-btn');
+  if (existing) return;
+
+  const proposalUrl = `${window.location.origin}/${state.leadId}`;
+  const btn = document.createElement('a');
+  btn.id = 'proposal-link-btn';
+  btn.href = proposalUrl;
+  btn.target = '_blank';
+  btn.className = 'btn btn-outline';
+  btn.style.cssText = 'width:100%; max-width:320px; padding:0.85rem; margin-top:0.75rem; display:flex; justify-content:center; gap:0.5rem; text-decoration:none;';
+  btn.innerHTML = '<span>🔗 View Your AI Proposal</span>';
+
+  DOM.successDoneBtn.parentElement.appendChild(btn);
 }
 
 document.addEventListener('DOMContentLoaded', init);

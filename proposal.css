@@ -1,0 +1,630 @@
+/* ==========================================================================
+   PROPOSAL PAGE STYLES
+   ========================================================================== */
+
+.proposal-header-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.proposal-main {
+  padding: 3rem 0 6rem;
+}
+
+/* ── State screens ─────────────────────────────────────── */
+
+.proposal-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  min-height: 60vh;
+  text-align: center;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.proposal-state h2 {
+  font-size: 1.75rem;
+}
+
+.proposal-state p {
+  font-size: 1rem;
+}
+
+.polling-note {
+  font-size: 0.8rem !important;
+  color: var(--color-text-muted) !important;
+  margin-top: -0.5rem;
+}
+
+.state-icon-wrap {
+  margin-bottom: 0.5rem;
+}
+
+.state-icon-emoji {
+  font-size: 3rem;
+}
+
+.spinner {
+  width: 52px;
+  height: 52px;
+  border: 3px solid rgba(6, 182, 212, 0.15);
+  border-top-color: var(--color-cyan);
+  border-radius: 50%;
+  animation: spin 0.85s linear infinite;
+}
+
+.spinner-purple {
+  border-color: rgba(139, 92, 246, 0.15);
+  border-top-color: var(--color-purple);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Shared section wrapper ────────────────────────────── */
+
+.prop-section {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 20px;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  padding: 2.5rem 3rem;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.prop-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, var(--color-cyan) 0%, var(--color-purple) 50%, var(--color-pink) 100%);
+}
+
+.prop-section-title {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.prop-section-sub {
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+/* ── Hero ──────────────────────────────────────────────── */
+
+.prop-hero {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.prop-hero-text .hero-badge {
+  margin-bottom: 1rem;
+}
+
+.prop-hero-text .hero-heading {
+  font-size: 2.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.prop-hero-text .hero-subtext {
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+}
+
+.prop-meta-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.prop-meta-chip {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--color-border-subtle);
+  padding: 0.3rem 0.75rem;
+  border-radius: 99px;
+}
+
+.prop-score-card {
+  min-width: 180px;
+}
+
+/* ── ROI summary bar ───────────────────────────────────── */
+
+.prop-roi-bar {
+  padding: 2rem 3rem;
+}
+
+.roi-bar-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+  align-items: center;
+  gap: 0;
+}
+
+.roi-bar-item {
+  text-align: center;
+  padding: 0 1.5rem;
+}
+
+.roi-bar-num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+
+.roi-bar-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.roi-bar-divider {
+  width: 1px;
+  height: 48px;
+  background: var(--color-border-subtle);
+}
+
+.roi-benchmark-note {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-top: 1.25rem;
+  font-style: italic;
+}
+
+/* ── Pain Points ───────────────────────────────────────── */
+
+.pain-points-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.pain-point-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.pain-point-card h4 {
+  font-size: 1rem;
+  margin: 0.5rem 0 0.4rem;
+}
+
+.pain-point-card p {
+  font-size: 0.85rem;
+}
+
+.pp-urgency-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 99px;
+  display: inline-block;
+}
+
+.urgency-high .pp-urgency-badge {
+  background: rgba(239,68,68,0.1);
+  color: var(--color-error);
+  border: 1px solid rgba(239,68,68,0.25);
+}
+
+.urgency-high {
+  border-color: rgba(239,68,68,0.2);
+}
+
+.urgency-medium .pp-urgency-badge {
+  background: rgba(245,158,11,0.1);
+  color: #f59e0b;
+  border: 1px solid rgba(245,158,11,0.25);
+}
+
+.urgency-medium {
+  border-color: rgba(245,158,11,0.15);
+}
+
+.urgency-low .pp-urgency-badge {
+  background: rgba(16,185,129,0.1);
+  color: var(--color-success);
+  border: 1px solid rgba(16,185,129,0.2);
+}
+
+/* ── Recommendation cards ──────────────────────────────── */
+
+.prop-rec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.prop-rec-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+.prop-rec-card:hover {
+  border-color: rgba(6,182,212,0.25);
+  box-shadow: 0 10px 30px -10px rgba(6,182,212,0.1);
+}
+
+.rec-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.75rem 2rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+  gap: 1.5rem;
+}
+
+.rec-title-group {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.rec-title-group .wf-icon-box {
+  flex-shrink: 0;
+  background: rgba(6,182,212,0.08);
+  border: 1px solid rgba(6,182,212,0.2);
+}
+
+.rec-week-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-cyan);
+  margin-bottom: 0.25rem;
+}
+
+.rec-title-group h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.2rem;
+}
+
+.rec-tagline {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.rec-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.badge-quick-win {
+  background: rgba(16,185,129,0.08);
+  color: var(--color-success);
+  border: 1px solid rgba(16,185,129,0.2);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 99px;
+}
+
+.badge-complexity {
+  background: rgba(255,255,255,0.04);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-subtle);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 99px;
+}
+
+.rec-body {
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rec-desc {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.rec-why-box {
+  background: rgba(139,92,246,0.04);
+  border: 1px solid rgba(139,92,246,0.15);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+}
+
+.rec-why-box strong {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-purple);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.rec-why-box p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.rec-tools-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.rec-tools-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.rec-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.rec-metric {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border-right: 1px solid var(--color-border-subtle);
+}
+
+.rec-metric:last-child {
+  border-right: none;
+}
+
+.rec-metric-val {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.rec-metric-label {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── Before / After ────────────────────────────────────── */
+
+.before-after-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.before-card, .after-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.after-card {
+  background: rgba(6,182,212,0.03);
+  border-color: rgba(6,182,212,0.2);
+}
+
+.ba-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 99px;
+  display: inline-block;
+  margin-bottom: 0.75rem;
+}
+
+.ba-before {
+  background: rgba(239,68,68,0.08);
+  color: var(--color-error);
+  border: 1px solid rgba(239,68,68,0.2);
+}
+
+.ba-after {
+  background: rgba(16,185,129,0.08);
+  color: var(--color-success);
+  border: 1px solid rgba(16,185,129,0.2);
+}
+
+.before-card p, .after-card p {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.ba-arrow {
+  font-size: 2rem;
+  color: var(--color-cyan);
+  font-weight: 800;
+  text-align: center;
+}
+
+/* ── Roadmap ───────────────────────────────────────────── */
+
+.roadmap-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.roadmap-item {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+  align-items: start;
+}
+
+.roadmap-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.roadmap-week {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-cyan);
+  padding-top: 0.15rem;
+}
+
+.roadmap-content h4 {
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.roadmap-content p {
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* ── Risk reversal ─────────────────────────────────────── */
+
+.prop-risk-section {
+  background: linear-gradient(135deg, rgba(6,182,212,0.04) 0%, rgba(139,92,246,0.04) 100%);
+  border-color: rgba(6,182,212,0.2);
+}
+
+.risk-inner {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.risk-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.risk-inner h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.risk-inner p {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ── CTA ───────────────────────────────────────────────── */
+
+.prop-cta-section {
+  text-align: center;
+  padding: 3.5rem;
+}
+
+.prop-cta-section h2 {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.prop-cta-section p {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.prop-cta-btn {
+  padding: 1rem 2.5rem !important;
+  font-size: 1rem !important;
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .prop-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .prop-score-card {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .roi-bar-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .roi-bar-divider {
+    display: none;
+  }
+
+  .rec-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .rec-metric:nth-child(2) {
+    border-right: none;
+  }
+
+  .before-after-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .ba-arrow {
+    transform: rotate(90deg);
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .prop-section {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .rec-card-header {
+    flex-direction: column;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .rec-metrics-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .prop-hero-text .hero-heading {
+    font-size: 2rem;
+  }
+}
