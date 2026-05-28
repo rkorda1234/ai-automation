@@ -925,24 +925,10 @@ async function saveLead(submissionType) {
   const cartItems = [...state.cart];
   let totalMonthly = 0;
   let totalSetup = 0;
-
-  // Build full workflow objects so the Claude agent has name/price/context
-  const selectedWorkflows = cartItems.map(id => {
+  cartItems.forEach(id => {
     const wf = WORKFLOWS_CATALOG.find(w => w.id === id);
-    if (!wf) return { id };
-    totalMonthly += wf.price;
-    totalSetup += wf.setupFee;
-    return {
-      id: wf.id,
-      name: wf.name,
-      price: wf.price,
-      setupFee: wf.setupFee,
-      hoursSaved: wf.hoursSaved,
-      tagline: wf.tagline,
-      category: wf.category
-    };
+    if (wf) { totalMonthly += wf.price; totalSetup += wf.setupFee; }
   });
-
   const expressCharge = state.deliveryTimeline === 'express' ? Math.round(totalSetup * 0.2) : 0;
 
   const { data, error } = await supabase.from('leads').insert({
@@ -959,7 +945,7 @@ async function saveLead(submissionType) {
     contact_email: state.contactEmail,
     contact_phone: state.contactPhone || null,
     implementation_timeline: state.timeline,
-    selected_workflows: selectedWorkflows,
+    selected_workflows: cartItems,
     delivery_timeline: state.deliveryTimeline,
     monthly_total: totalMonthly,
     setup_total: totalSetup,
