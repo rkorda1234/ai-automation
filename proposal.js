@@ -73,7 +73,11 @@ async function loadProposal(leadId) {
 
   if (data.status === 'ready' && data.proposal_json) {
     stopPolling();
-    renderProposal(data.proposal_json);
+    // Merge top-level row fields (company_name, etc.) into the JSON so the
+    // renderer can display them without needing a second leads table query.
+    const merged = { ...data.proposal_json };
+    if (!merged.company_name && data.company_name) merged.company_name = data.company_name;
+    renderProposal(merged);
     return;
   }
 
@@ -95,8 +99,8 @@ function stopPolling() {
 function renderProposal(json) {
   show('state-ready');
 
-  // Hero
-  setText('prop-company-name', json.company_name || 'Your Company');
+  // Hero — company_name can live inside the JSON or at the top-level row
+  setText('prop-company-name', json.company_name || json.companyName || 'Your Company');
   setText('prop-executive-summary', json.executiveSummary || '');
   setText('prop-date', new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
 
@@ -107,10 +111,10 @@ function renderProposal(json) {
   document.getElementById('prop-circle-fill').setAttribute('stroke-dasharray', `${pct}, 100`);
   setText('prop-readiness-diagnosis', json.readinessDiagnosis || '');
 
-  // ROI bar
+  // ROI bar — totalROI comes pre-formatted from Claude (e.g. "8x"), don't append %
   setText('roi-time-saved', json.totalTimeSavedPerWeek != null ? `${json.totalTimeSavedPerWeek} hrs` : '—');
   setText('roi-monthly-value', json.totalMonthlyValue != null ? `$${json.totalMonthlyValue.toLocaleString()}` : '—');
-  setText('roi-total-roi', json.totalROI != null ? `${json.totalROI}%` : '—');
+  setText('roi-total-roi', json.totalROI != null ? String(json.totalROI) : '—');
   setText('roi-payback', json.paybackPeriodDays != null ? `${json.paybackPeriodDays} days` : '—');
   setText('roi-benchmark', json.industryBenchmark || '');
 
@@ -191,23 +195,26 @@ function renderProposal(json) {
   setText('prop-before', json.beforeAfter?.before || '');
   setText('prop-after', json.beforeAfter?.after || '');
 
-  // Roadmap
+  // Roadmap — accept both key names the n8n prompt may produce
   const roadmapList = document.getElementById('roadmap-list');
-  (json.implementationRoadmap || []).forEach(step => {
+  const roadmapSteps = json.implementationRoadmap || json.implementationTimeline || [];
+  roadmapSteps.forEach(step => {
     const item = document.createElement('div');
     item.className = 'roadmap-item';
     item.innerHTML = `
       <div class="roadmap-week">Week ${step.week}</div>
       <div class="roadmap-content">
-        <h4>${step.name}</h4>
+        <h4>${step.name || step.title || ''}</h4>
         <p>${step.description}</p>
       </div>
     `;
     roadmapList.appendChild(item);
   });
 
-  // Risk reversal
-  setText('prop-risk-reversal', json.riskReversal || '');
+  // Risk section — accept both riskReversal string OR riskLevel+riskNote pair
+  const riskText = json.riskReversal
+    || (json.riskNote ? `${json.riskLevel ? `[${json.riskLevel} risk] ` : ''}${json.riskNote}` : '');
+  setText('prop-risk-reversal', riskText);
 }
 
 function show(id) {
