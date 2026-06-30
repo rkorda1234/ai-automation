@@ -3,7 +3,8 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 const supabase = createClient(
   'https://jusytlefuvoyvprwgxph.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1c3l0bGVmdXZveXZwcndneHBoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMDUxNTgsImV4cCI6MjA5NDg4MTE1OH0.84CATTtrEFehCnynWrK3JMxmZErNnALuMNourzGHkrs'
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1c3l0bGVmdXZveXZwcndneHBoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMDUxNTgsImV4cCI6MjA5NDg4MTE1OH0.84CATTtrEFehCnynWrK3JMxmZErNnALuMNourzGHkrs',
+  { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }
 );
 
 /* ==========================================================================
@@ -335,7 +336,9 @@ const DOM = {
   bookStrategyBtn: document.getElementById('book-strategy-btn'),
   paymentForm: document.getElementById('payment-form'),
   btnPaySubmit: document.getElementById('btn-pay-submit'),
-  btnPayTotal: document.getElementById('btn-pay-total'),
+  checkoutEmail: document.getElementById('checkout-email'),
+  checkoutCompany: document.getElementById('checkout-company'),
+  termsAccept: document.getElementById('terms-accept'),
   btnReturnCart: document.querySelector('.btn-return-cart'),
 
   // Success Modal
@@ -346,10 +349,7 @@ const DOM = {
   receiptDeliveryTier: document.getElementById('receipt-delivery-tier'),
   receiptSettledTotal: document.getElementById('receipt-settled-total'),
   receiptItemsList: document.getElementById('receipt-items-list'),
-  successDoneBtn: document.getElementById('success-done-btn'),
-  confirmBookingBtn: document.getElementById('confirm-booking-btn'),
-  calendarDays: document.querySelectorAll('.cal-day'),
-  calendarSlots: document.querySelectorAll('.cal-slot')
+  successDoneBtn: document.getElementById('success-done-btn')
 };
 
 /* ==========================================================================
@@ -785,6 +785,13 @@ function bindCartInteractions() {
       showStrategySuccessModal();
     });
   }
+
+  const consultBtn = document.getElementById('trigger-consult-btn');
+  if (consultBtn) {
+    consultBtn.addEventListener('click', () => {
+      showStrategySuccessModal();
+    });
+  }
 }
 
 function toggleCartItem(id) {
@@ -906,9 +913,12 @@ function populateCheckoutSummary() {
   const remainingBalance = Math.round((totalSetup + setupPremium) * 0.5);
 
   DOM.checkoutSummaryTotal.textContent = depositCharged;
-  DOM.btnPayTotal.textContent = depositCharged;
   DOM.scheduleTodayCharge.textContent = depositCharged;
   DOM.scheduleBalanceCharge.textContent = remainingBalance;
+
+  // Pre-fill contact details from wizard state
+  if (DOM.checkoutEmail) DOM.checkoutEmail.value = state.contactEmail || '';
+  if (DOM.checkoutCompany) DOM.checkoutCompany.value = state.companyName || '';
 }
 
 function bindCheckoutSimulator() {
@@ -919,23 +929,67 @@ function bindCheckoutSimulator() {
   }
 
   if (DOM.paymentForm) {
-    DOM.paymentForm.addEventListener('submit', (e) => {
+    DOM.paymentForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      DOM.btnPaySubmit.setAttribute('disabled', 'true');
-      DOM.btnPaySubmit.querySelector('span').textContent = 'Authorizing Escrow Lock... 🔒';
+      // Validate terms
+      if (DOM.termsAccept && !DOM.termsAccept.checked) {
+        document.getElementById('terms-error').style.display = 'block';
+        return;
+      }
+      if (DOM.termsAccept) document.getElementById('terms-error').style.display = 'none';
 
-      setTimeout(async () => {
-        DOM.checkoutModal.close();
-        populateSuccessReceipt(false);
-        await saveLead('checkout');
-        DOM.successModal.showModal();
-        launchConfetti();
-        showProposalLink();
-        DOM.btnPaySubmit.removeAttribute('disabled');
-      }, 2000);
+      // Validate email
+      const emailInput = DOM.checkoutEmail;
+      const emailVal = emailInput ? emailInput.value.trim() : state.contactEmail;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailVal)) {
+        document.getElementById('checkout-email-error').style.display = 'block';
+        return;
+      }
+      document.getElementById('checkout-email-error').style.display = 'none';
+
+      const companyVal = DOM.checkoutCompany ? DOM.checkoutCompany.value.trim() : state.companyName;
+
+      DOM.btnPaySubmit.setAttribute('disabled', 'true');
+      DOM.btnPaySubmit.querySelector('span').textContent = 'Sending Invoice Request... 📄';
+
+      try {
+        const leadId = await saveLead('invoice_request');
+        await requestZohoInvoice({
+          email: emailVal,
+          company: companyVal,
+          leadId,
+          cart: [...state.cart],
+          total: parseInt(DOM.scheduleTodayCharge.textContent, 10) || 0,
+          balance: parseInt(DOM.scheduleBalanceCharge.textContent, 10) || 0
+        });
+      } catch (err) {
+        console.warn('[checkout] background error:', err);
+      }
+
+      DOM.checkoutModal.close();
+      populateSuccessReceipt(false);
+      DOM.successModal.showModal();
+      launchConfetti();
+      showProposalLink();
+      DOM.btnPaySubmit.removeAttribute('disabled');
+      DOM.btnPaySubmit.querySelector('span').textContent = 'Send My Invoice';
     });
   }
+}
+
+async function requestZohoInvoice({ email, company, leadId, cart, total, balance }) {
+  const items = cart.map(id => {
+    const wf = WORKFLOWS_CATALOG.find(w => w.id === id);
+    return wf ? { id: wf.id, name: wf.name, monthly: wf.price, setup: wf.setupFee } : null;
+  }).filter(Boolean);
+
+  await fetch('https://marketingverse.app.n8n.cloud/webhook/create-zoho-invoice', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, company, leadId, items, invoicedToday: total, balance })
+  });
 }
 
 async function saveLead(submissionType) {
@@ -989,16 +1043,18 @@ function populateSuccessReceipt(isStrategySession) {
   const successTitle = document.querySelector('#success-modal .success-header h2');
   const successDesc = document.querySelector('#success-modal .success-header p');
 
+  const refNum = Math.floor(Math.random() * 8999 + 1000);
+
   if (isStrategySession) {
-    successTitle.textContent = "Thank you! Blueprint Requested.";
-    successDesc.textContent = `Our team is analyzing your workflows. We will reach out within 48 hours to ${state.contactEmail} with a customized blueprint on how AI agents can optimize ${state.companyName}'s operations.`;
+    if (successTitle) successTitle.textContent = "Thank you! Blueprint Requested.";
+    if (successDesc) successDesc.textContent = `Our team is analysing your workflows. We will reach out within 48 hours to ${state.contactEmail} with your customised automation blueprint.`;
     DOM.receiptSettledTotal.textContent = "$0 (Consultation)";
-    DOM.receiptId.textContent = `#MVR-${Math.floor(Math.random() * 8999 + 1000)}-LEAD`;
+    DOM.receiptId.textContent = `#MVR-${refNum}-LEAD`;
   } else {
-    successTitle.textContent = "Escrow Deposit Locked Successfully";
-    successDesc.textContent = "Your secure deposit has been held in escrow. Engineering kickoff will commence at our scheduled session below.";
+    if (successTitle) successTitle.textContent = "Invoice Request Received!";
+    if (successDesc) successDesc.textContent = `We're generating your Zoho Books invoice now. Check ${state.contactEmail || 'your email'} shortly for the secure payment link.`;
     DOM.receiptSettledTotal.textContent = `$${DOM.scheduleTodayCharge.textContent}`;
-    DOM.receiptId.textContent = `#MVR-${Math.floor(Math.random() * 8999 + 1000)}-X`;
+    DOM.receiptId.textContent = `#MVR-${refNum}-INV`;
   }
 
   DOM.receiptClientName.textContent = state.companyName;
@@ -1007,56 +1063,35 @@ function populateSuccessReceipt(isStrategySession) {
 }
 
 function bindBookingScheduler() {
-  DOM.calendarDays.forEach(day => {
-    day.addEventListener('click', (e) => {
-      DOM.calendarDays.forEach(d => d.classList.remove('active-day'));
-      e.currentTarget.classList.add('active-day');
-      updateBookingConfirmBtnText();
+  if (DOM.successDoneBtn) {
+    DOM.successDoneBtn.addEventListener('click', () => {
+      DOM.successModal.close();
+      window.location.reload();
     });
-  });
-
-  DOM.calendarSlots.forEach(slot => {
-    slot.addEventListener('click', (e) => {
-      DOM.calendarSlots.forEach(s => s.classList.remove('active-slot'));
-      e.currentTarget.classList.add('active-slot');
-      updateBookingConfirmBtnText();
-    });
-  });
-
-  DOM.confirmBookingBtn.addEventListener('click', () => {
-    DOM.confirmBookingBtn.setAttribute('disabled', 'true');
-    DOM.confirmBookingBtn.querySelector('span').textContent = 'Session Confirmed! Invitation Sent. 📅';
-  });
-
-  DOM.successDoneBtn.addEventListener('click', () => {
-    DOM.successModal.close();
-    window.location.reload();
-  });
-}
-
-function updateBookingConfirmBtnText() {
-  const activeDay = document.querySelector('.cal-day.active-day');
-  const activeSlot = document.querySelector('.cal-slot.active-slot');
-  if (activeDay && activeSlot) {
-    DOM.confirmBookingBtn.removeAttribute('disabled');
-    DOM.confirmBookingBtn.querySelector('span').textContent = `Confirm Session: ${activeDay.querySelector('.day-lbl').textContent} ${activeDay.querySelector('.day-num').textContent} @ ${activeSlot.textContent}`;
   }
 }
 
 function showProposalLink() {
   if (!state.leadId) return;
-  const existing = document.getElementById('proposal-link-btn');
-  if (existing) return;
 
-  const proposalUrl = `${window.location.origin}/${state.leadId}`;
+  const proposalUrl = `${window.location.origin}/proposal.html?id=${state.leadId}`;
+
+  // Update the proposal-building banner in step 4
+  const banner = document.getElementById('proposal-building-banner');
+  const link = document.getElementById('proposal-link');
+  if (banner) banner.style.display = 'flex';
+  if (link) link.href = proposalUrl;
+
+  // Also add a link in the success modal if not already there
+  const existing = document.getElementById('proposal-link-btn');
+  if (existing || !DOM.successDoneBtn) return;
   const btn = document.createElement('a');
   btn.id = 'proposal-link-btn';
   btn.href = proposalUrl;
   btn.target = '_blank';
   btn.className = 'btn btn-outline';
-  btn.style.cssText = 'width:100%; max-width:320px; padding:0.85rem; margin-top:0.75rem; display:flex; justify-content:center; gap:0.5rem; text-decoration:none;';
+  btn.style.cssText = 'width:100%; padding:0.85rem; margin-top:0.75rem; display:flex; justify-content:center; gap:0.5rem; text-decoration:none; border-radius:14px;';
   btn.innerHTML = '<span>🔗 View Your AI Proposal</span>';
-
   DOM.successDoneBtn.parentElement.appendChild(btn);
 }
 
