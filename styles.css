@@ -192,13 +192,14 @@ p {
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
   flex-shrink: 0;
 }
 
-.logo-container a {
-  display: block;
-  line-height: 0;
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-decoration: none;
 }
 
 .logo-img {
@@ -218,6 +219,7 @@ p {
   align-items: center;
   justify-content: center;
   color: #fff;
+  flex-shrink: 0;
 }
 
 .logo-icon svg { width: 1.1rem; height: 1.1rem; }
@@ -228,6 +230,7 @@ p {
   font-weight: 800;
   letter-spacing: -0.03em;
   color: var(--color-text-primary);
+  white-space: nowrap;
 }
 
 .desktop-nav ul {
