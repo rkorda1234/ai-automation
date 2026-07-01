@@ -193,12 +193,20 @@ p {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.logo-container a {
+  display: block;
+  line-height: 0;
 }
 
 .logo-img {
-  height: 1.35rem;
+  height: 1.5rem;
   width: auto;
+  max-width: 200px;
   object-fit: contain;
+  display: block;
 }
 
 .logo-icon {
@@ -1870,6 +1878,7 @@ p {
 }
 
 @media (max-width: 768px) {
+  .desktop-nav { display: none; }
   .primary-card-panel { padding: 1.75rem; }
   .hero-heading { font-size: 2.25rem; }
   .features-preview-grid { grid-template-columns: 1fr; gap: 1rem; text-align: center; }
