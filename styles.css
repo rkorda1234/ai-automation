@@ -79,21 +79,18 @@
   pointer-events: none;
 }
 
+/* Soft lavender orbs — matches home.the-marketingverse.com background */
 .g1, .g2, .g3, .g4, .g5 {
   position: absolute;
-  background: radial-gradient(circle at center, rgba(var(--color), 0.8) 0, rgba(var(--color), 0) 50%) no-repeat;
-  mix-blend-mode: hard-light;
+  background: radial-gradient(circle at center, rgba(var(--color), 0.45) 0, rgba(var(--color), 0) 65%) no-repeat;
   width: var(--size);
   height: var(--size);
   top: calc(50% - var(--size) / 2);
   left: calc(50% - var(--size) / 2);
-  opacity: 0.7;
 }
-.g1 { --color: 18, 113, 255; --size: 80%; animation: moveVertical 30s ease infinite; }
-.g2 { --color: 221, 74, 255; --size: 80%; transform-origin: calc(50% - 400px); animation: moveInCircle 20s reverse infinite; }
-.g3 { --color: 100, 220, 255; --size: 80%; transform-origin: calc(50% + 400px); animation: moveInCircle 40s linear infinite; }
-.g4 { --color: 200, 50, 50; --size: 80%; transform-origin: calc(50% - 200px); animation: moveHorizontal 40s ease infinite; opacity: 0.4; }
-.g5 { --color: 180, 180, 50; --size: 80%; transform-origin: calc(50% - 800px) calc(50% + 200px); animation: moveInCircle 20s ease infinite; opacity: 0.4; }
+.g1 { --color: 186, 172, 230; --size: 90%; animation: moveVertical 30s ease infinite; }
+.g2 { --color: 200, 188, 242; --size: 70%; left: -20%; transform-origin: 60% 60%; animation: moveInCircle 25s reverse infinite; opacity: 0.7; }
+.g3, .g4, .g5 { display: none; }
 
 * {
   box-sizing: border-box;
@@ -196,41 +193,29 @@ p {
 }
 
 .logo-link {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
+  display: inline-flex;
+  align-items: baseline;
   text-decoration: none;
+  letter-spacing: -0.035em;
+  gap: 0;
 }
 
-.logo-img {
-  height: 1.5rem;
-  width: auto;
-  max-width: 200px;
-  object-fit: contain;
-  display: block;
-}
-
-.logo-icon {
-  width: 2rem;
-  height: 2rem;
-  background: #000;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  flex-shrink: 0;
-}
-
-.logo-icon svg { width: 1.1rem; height: 1.1rem; }
-
-.logo-text {
-  font-family: var(--font-display);
+.logo-bold {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-style: normal;
   font-size: 1.3rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--color-text-primary);
-  white-space: nowrap;
+  color: #0a0a0a;
+  line-height: 1;
+}
+
+.logo-italic {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 1.3rem;
+  color: #0a0a0a;
+  line-height: 1;
 }
 
 .desktop-nav ul {
@@ -361,17 +346,52 @@ p {
    Hero / Welcome View (Step 0)
    ========================================================================== */
 
-.welcome-container { text-align: left; display: none; }
+.welcome-container { text-align: center; display: none; }
 .welcome-container.active-step {
   display: block;
   animation: fadeInUp 0.65s var(--transition-smooth) forwards;
 }
 
+/* Large "Marketingverse" hero brand name */
+.hero-brand-name {
+  font-size: clamp(3rem, 9vw, 5.5rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.25rem;
+}
+
+.brand-sans {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-style: normal;
+  color: #0a0a0a;
+}
+
+.brand-serif {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-style: italic;
+  color: #0a0a0a;
+}
+
+/* Badge dot like homepage */
+.badge-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7c6ff0;
+  flex-shrink: 0;
+}
+
 .hero-badge {
-  background: rgba(18, 113, 255, 0.06);
-  color: #1271ff;
-  border: 1px solid rgba(18, 113, 255, 0.15);
-  font-family: var(--font-display);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.85);
+  color: rgba(10, 10, 10, 0.65);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -383,18 +403,25 @@ p {
 }
 
 .hero-heading {
-  font-size: 3.25rem;
-  line-height: 1.1;
-  margin-bottom: 1.25rem;
-  font-weight: 800;
-  color: var(--color-text-primary);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: 2rem;
+  letter-spacing: 0;
+  font-family: 'Inter', sans-serif;
 }
 
 .hero-subtext {
   font-size: 1.1rem;
-  max-width: 580px;
-  margin-bottom: 2.5rem;
+  max-width: 560px;
+  margin: 0 auto 2.5rem;
   color: var(--color-text-secondary);
+}
+
+.hero-subtext em {
+  font-style: italic;
+  color: var(--color-text-primary);
+  font-family: 'Playfair Display', serif;
 }
 
 .features-preview-grid {
@@ -404,12 +431,13 @@ p {
   border-top: 1px solid var(--color-border-subtle);
   padding-top: 2.5rem;
   margin-top: 2rem;
+  text-align: center;
 }
 
-.preview-item { display: flex; flex-direction: column; gap: 0.25rem; }
+.preview-item { display: flex; flex-direction: column; gap: 0.25rem; align-items: center; }
 
 .preview-number {
-  font-family: var(--font-display);
+  font-family: 'Inter', sans-serif;
   font-size: 1.8rem;
   font-weight: 800;
   color: var(--color-text-primary);
@@ -419,6 +447,12 @@ p {
   font-size: 0.8rem;
   color: var(--color-text-muted);
   font-weight: 500;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
 }
 
 /* ==========================================================================
