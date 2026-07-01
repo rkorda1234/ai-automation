@@ -3,41 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mverse.AI - Custom Automation Suite Builder & Cart</title>
-  <meta name="description" content="Audit your business bottlenecks, unlock custom AI workflow recommendations, calculate your monthly ROI, and build your bespoke automation suite.">
+  <title>Marketingverse | AI Automation Suite Builder</title>
+  <meta name="description" content="Audit your business bottlenecks, unlock custom AI workflow recommendations, and calculate your real monthly ROI.">
+  <meta name="robots" content="noindex">
 
-  <!-- Modern Premium Typography -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="theme-dark">
-  <!-- Glowing Background Orbs -->
-  <div class="glow-orb glow-orb-1" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb-2" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb-3" aria-hidden="true"></div>
+<body>
+
+  <!-- Animated Gradient Background (matches website) -->
+  <div class="gradient-bg" aria-hidden="true">
+    <div class="g1"></div>
+    <div class="g2"></div>
+    <div class="g3"></div>
+    <div class="g4"></div>
+    <div class="g5"></div>
+  </div>
 
   <!-- Header Navigation -->
   <header class="app-header">
     <div class="header-container">
       <div class="logo-container">
-        <img src="https://assets.cdn.filesafe.space/CFAAUO2gnPooyim4LdoM/media/6a189e3df58810f313b623a3.png" alt="Marketingverse" class="logo-img">
-        <span class="logo-text">Marketingverse</span>
+        <a href="https://home.the-marketingverse.com/" target="_blank" rel="noopener noreferrer">
+          <img
+            src="https://assets.cdn.filesafe.space/CFAAUO2gnPooyim4LdoM/media/6a189e3df58810f313b623a3.png"
+            alt="Marketingverse"
+            class="logo-img"
+          >
+        </a>
       </div>
 
       <nav class="desktop-nav" aria-label="Main Navigation">
         <ul>
-          <li><a href="https://hello.the-marketingverse.com/" class="nav-link">Home</a></li>
-          <li><a href="https://hello.the-marketingverse.com/broker-engine" class="nav-link">Broker Engine</a></li>
-          <li><a href="https://hello.the-marketingverse.com/social-media" class="nav-link">Social Media</a></li>
+          <li><a href="https://home.the-marketingverse.com/" class="nav-link">Home</a></li>
+          <li><a href="https://home.the-marketingverse.com/#crm" class="nav-link">Broker CRM</a></li>
+          <li><a href="https://home.the-marketingverse.com/#social" class="nav-link">Social Media</a></li>
         </ul>
       </nav>
 
       <div class="header-actions">
-        <!-- Interactive Cart Toggle -->
+        <!-- Cart Toggle (mobile) -->
         <button id="cart-toggle-btn" class="btn-cart-toggle" aria-label="Toggle Cart View">
           <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="9" cy="21" r="1"></circle>
@@ -57,17 +68,20 @@
       <!-- Primary Action Area: Wizard / Recommendations -->
       <section class="primary-card-panel" aria-live="polite">
 
-        <!-- Welcome Hero View (Wizard Step 0) -->
+        <!-- Welcome Hero View (Step 0) -->
         <div id="welcome-step" class="welcome-container active-step">
-          <div class="hero-badge">Next-Gen Autonomous Infrastructure</div>
-          <h1 class="hero-heading">Build Your Bespoke <br><span class="gradient-text glow-text">AI Automation Suite</span></h1>
+          <div class="hero-badge">AI Automation Suite Builder</div>
+          <h1 class="hero-heading">
+            Build Your Bespoke<br>
+            <span class="gradient-text">AI Automation Suite</span>
+          </h1>
           <p class="hero-subtext">
-            Audit your company's bottlenecks in 2 minutes. Receive custom-tailored AI workflow agents, calculate real-time monthly ROI, and deploy your custom automations instantly.
+            Audit your company's bottlenecks in 2 minutes. Get custom-tailored AI workflow recommendations, calculate real-time monthly ROI, and receive your personalised blueprint instantly.
           </p>
           <div class="hero-actions">
             <button id="start-audit-btn" class="btn btn-primary btn-glow">
               <span>Begin Diagnostics</span>
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
@@ -90,9 +104,9 @@
           </div>
         </div>
 
-        <!-- Diagnostic Wizard Form Container -->
+        <!-- Diagnostic Wizard Form -->
         <div id="diagnostic-wizard" class="wizard-container hidden-step">
-          <!-- Step Tracker -->
+          <!-- Step Progress Bar -->
           <div class="step-tracker-bar">
             <div class="tracker-fill" style="width: 20%"></div>
             <div class="tracker-steps-labels">
@@ -104,14 +118,15 @@
           </div>
 
           <form id="diagnostic-form" novalidate>
-            <!-- Wizard Step 1: Business Profile -->
+
+            <!-- Step 1: Business Profile -->
             <div id="wizard-step-1" class="wizard-step active-step">
               <h2 class="step-heading">Tell us about your business</h2>
               <p class="step-subheading">This helps our recommendation engine map out workflows tailored to your exact needs.</p>
 
               <div class="form-group">
                 <label for="company-name" class="form-label">Company Name</label>
-                <input type="text" id="company-name" class="form-input" placeholder="e.g. Acme Corp" required>
+                <input type="text" id="company-name" class="form-input" placeholder="e.g. Acme Realty" required>
                 <span class="form-error-msg" id="name-error">Please enter your company name</span>
               </div>
 
@@ -119,8 +134,8 @@
                 <label class="form-label">Industry / Niche</label>
                 <select id="industry-select" class="form-input select-input" required>
                   <option value="" disabled selected>Select your industry</option>
-                  <option value="ecommerce">E-commerce & Retail</option>
                   <option value="realestate">Real Estate & Finance</option>
+                  <option value="ecommerce">E-commerce & Retail</option>
                   <option value="agency">Professional Services / Agency</option>
                   <option value="healthcare">Healthcare & Medical</option>
                   <option value="saas">SaaS & Technology</option>
@@ -133,9 +148,9 @@
                 <label class="form-label">Company Size</label>
                 <select id="company-size" class="form-input select-input" required>
                   <option value="" disabled selected>Select company size</option>
-                  <option value="1-10">1 - 10 employees</option>
-                  <option value="11-50">11 - 50 employees</option>
-                  <option value="51-200">51 - 200 employees</option>
+                  <option value="1-10">1 – 10 employees</option>
+                  <option value="11-50">11 – 50 employees</option>
+                  <option value="51-200">51 – 200 employees</option>
                   <option value="201+">201+ employees</option>
                 </select>
                 <span class="form-error-msg" id="size-error">Please select your company size</span>
@@ -146,60 +161,44 @@
                 <div class="bottleneck-selectors goals-selectors">
                   <label class="bottleneck-chip-card">
                     <input type="checkbox" name="goals" value="reduce_costs">
-                    <div class="chip-card-inner">
-                      <div class="chip-text">
-                        <h3>📉 Reduce costs</h3>
-                      </div>
-                    </div>
+                    <div class="chip-card-inner"><div class="chip-text"><h3>📉 Reduce costs</h3></div></div>
                   </label>
                   <label class="bottleneck-chip-card">
                     <input type="checkbox" name="goals" value="scale_operations">
-                    <div class="chip-card-inner">
-                      <div class="chip-text">
-                        <h3>🚀 Scale operations</h3>
-                      </div>
-                    </div>
+                    <div class="chip-card-inner"><div class="chip-text"><h3>🚀 Scale operations</h3></div></div>
                   </label>
                   <label class="bottleneck-chip-card">
                     <input type="checkbox" name="goals" value="improve_response">
-                    <div class="chip-card-inner">
-                      <div class="chip-text">
-                        <h3>⚡ Improve response times</h3>
-                      </div>
-                    </div>
+                    <div class="chip-card-inner"><div class="chip-text"><h3>⚡ Improve response times</h3></div></div>
                   </label>
                   <label class="bottleneck-chip-card">
                     <input type="checkbox" name="goals" value="eliminate_repetitive">
-                    <div class="chip-card-inner">
-                      <div class="chip-text">
-                        <h3>🤖 Eliminate repetitive tasks</h3>
-                      </div>
-                    </div>
+                    <div class="chip-card-inner"><div class="chip-text"><h3>🤖 Eliminate repetitive tasks</h3></div></div>
                   </label>
                 </div>
                 <span class="form-error-msg" id="goals-error">Please select at least one goal</span>
               </div>
             </div>
 
-            <!-- Wizard Step 2: Operational Roles & Team Mapping -->
+            <!-- Step 2: Operational Roles -->
             <div id="wizard-step-2" class="wizard-step hidden-step">
               <h2 class="step-heading">Operational Roles & Team Mapping</h2>
-              <p class="step-subheading">Select the roles currently present in your organization that you are looking to optimize, automate, or support with AI agents.</p>
+              <p class="step-subheading">Select the roles you want to optimize or automate with AI agents.</p>
 
               <div class="accordion-roles-container" id="roles-accordion-container">
                 <!-- Dynamically generated by app.js -->
               </div>
-              <button type="button" class="btn btn-outline" id="add-custom-role-btn" style="margin-top: 15px;">+ Add Custom Role</button>
+              <button type="button" class="btn btn-outline" id="add-custom-role-btn" style="margin-top: 15px; border-radius: 12px !important;">+ Add Custom Role</button>
               <span class="form-error-msg" id="roles-error">Please select at least one role and task to audit</span>
             </div>
 
-            <!-- Wizard Step 3: Bottlenecks & Security -->
+            <!-- Step 3: Bottlenecks & Tech Stack -->
             <div id="wizard-step-3" class="wizard-step hidden-step">
-              <h2 class="step-heading">Bottlenecks & Security</h2>
-              <p class="step-subheading">Help us understand your current tech stack constraints.</p>
+              <h2 class="step-heading">Tech Stack & Bottlenecks</h2>
+              <p class="step-subheading">Help us understand your current tools and constraints.</p>
 
               <div class="form-group">
-                <label class="form-label">Current Software/Tools Used</label>
+                <label class="form-label">Current Software / Tools Used</label>
                 <div class="software-chips-grid" id="software-chips">
                   <label class="software-chip"><input type="checkbox" name="software" value="Google Apps"><div class="chip-inner"><span class="chip-icon">📊</span><span>Google Apps</span></div></label>
                   <label class="software-chip"><input type="checkbox" name="software" value="Zapier"><div class="chip-inner"><span class="chip-icon">⚡</span><span>Zapier</span></div></label>
@@ -226,7 +225,7 @@
               </div>
 
               <div class="form-group">
-                <label class="form-label">Data Privacy/Security Constraints</label>
+                <label class="form-label">Data Privacy / Security Constraints</label>
                 <select id="security-constraints" class="form-input select-input" required>
                   <option value="" disabled selected>Select constraints</option>
                   <option value="none">None / Standard</option>
@@ -238,10 +237,10 @@
               </div>
             </div>
 
-            <!-- Wizard Step 4: Contact & Next Steps -->
+            <!-- Step 4: Contact & Next Steps -->
             <div id="wizard-step-4" class="wizard-step hidden-step">
-              <h2 class="step-heading">Next Steps & Contact</h2>
-              <p class="step-subheading">Who should we send the automated blueprint to?</p>
+              <h2 class="step-heading">Almost There</h2>
+              <p class="step-subheading">Where should we send your custom AI automation blueprint?</p>
 
               <div class="form-group">
                 <label for="contact-name" class="form-label">Full Name</label>
@@ -257,7 +256,7 @@
 
               <div class="form-group">
                 <label for="contact-phone" class="form-label">Phone Number</label>
-                <input type="tel" id="contact-phone" class="form-input" placeholder="(555) 555-5555">
+                <input type="tel" id="contact-phone" class="form-input" placeholder="(786) 555-1234">
               </div>
 
               <div class="form-group">
@@ -266,14 +265,20 @@
                   <option value="" disabled selected>Select timeline</option>
                   <option value="immediately">Immediately</option>
                   <option value="1month">Within 1 month</option>
-                  <option value="3months">2-3 months</option>
+                  <option value="3months">2–3 months</option>
                   <option value="exploring">Just exploring</option>
                 </select>
                 <span class="form-error-msg" id="timeline-error">Please select a timeline</span>
               </div>
+
+              <!-- Proposal Building Banner (shown after submit) -->
+              <div id="proposal-building-banner" class="proposal-building-banner">
+                <div class="pulse-dot"></div>
+                <p>Your custom proposal is being built by our AI agents. <a id="proposal-link" href="#" target="_blank">View it here once ready →</a></p>
+              </div>
             </div>
 
-            <!-- Wizard Navigation Buttons -->
+            <!-- Wizard Navigation -->
             <div class="wizard-footer-actions">
               <button type="button" id="prev-step-btn" class="btn btn-outline disabled" disabled>Back</button>
               <button type="button" id="next-step-btn" class="btn btn-primary">
@@ -287,31 +292,15 @@
           </form>
         </div>
 
-        <!-- Dynamic Recommendations Report Container (Loaded after form submission) -->
+        <!-- Recommendations Report -->
         <div id="recommendations-container" class="recommendations-view hidden-step">
-
-          <!-- Proposal building notification -->
-          <div class="proposal-building-banner">
-            <div class="pbb-left">
-              <div class="pbb-pulse-ring"><div class="pbb-pulse-dot"></div></div>
-              <div class="pbb-text">
-                <h4>Your personalised AI proposal is being built</h4>
-                <p>Our agents are analysing your answers and crafting a tailored automation blueprint. We'll send it to <strong id="banner-email">your email</strong> shortly.</p>
-              </div>
-            </div>
-            <span class="pbb-status-chip">Generating…</span>
-          </div>
-
-          <div class="generic-recs-note">
-            <span class="generic-note-icon">⬇️</span>
-            <p>While you wait — here are our most popular packages. Your proposal will recommend only the ones that match your exact tool stack and goals.</p>
-          </div>
-
           <div class="results-header-box">
             <div class="report-meta">
               <span class="badge badge-success">Diagnostics Complete</span>
-              <h2 class="report-title">Mverse Optimization Audit</h2>
-              <p class="report-lead">Simple automations mapped for <span id="dyn-company-name" class="dynamic-highlight">Your Company</span> to replace repeated manual work.</p>
+              <h2 class="report-title" style="font-size: 1.65rem; margin: 0.5rem 0 0;">Automation Audit</h2>
+              <p class="report-lead">
+                Workflows mapped for <span id="dyn-company-name" class="dynamic-highlight">Your Company</span>.
+              </p>
             </div>
 
             <div class="metric-score-card">
@@ -324,37 +313,34 @@
               </div>
               <div class="score-desc">
                 <span class="score-num">AI Viability Score</span>
-                <span class="score-tier">Tier 1: Extreme Efficiency Target</span>
+                <span class="score-tier">Tier 1: High Efficiency Target</span>
               </div>
             </div>
           </div>
 
-          <!-- Filters or view tabs -->
           <div class="results-filters-bar">
-            <h3>Recommended Workflows</h3>
+            <h3 style="font-size: 1rem; font-weight: 700;">Recommended Workflows</h3>
             <div class="filter-toggles">
-              <button class="filter-btn active" data-filter="all">All Recommended</button>
+              <button class="filter-btn active" data-filter="all">All</button>
               <button class="filter-btn" data-filter="matched">Primary Gaps</button>
             </div>
           </div>
 
-          <!-- Automated recommendation grid -->
-          <div id="workflows-grid" class="workflows-deck">
-            <!-- Dynamic automation workflow cards will be rendered here by app.js -->
-          </div>
+          <!-- Dynamic workflow cards -->
+          <div id="workflows-grid" class="workflows-deck"></div>
 
           <div class="custom-proposal-banner">
             <div class="banner-content">
-              <h4>Need a custom corporate automation?</h4>
-              <p>Our expert developers can design bespoke integration scripts tailored specifically for legacy enterprise systems.</p>
+              <h4>Need a fully custom automation?</h4>
+              <p>Our team can design bespoke integrations for your specific tools and workflows.</p>
             </div>
-            <button id="trigger-consult-btn" class="btn btn-outline">Consult Solutions Architect</button>
+            <button id="trigger-consult-btn" class="btn btn-outline">Book a Strategy Call</button>
           </div>
         </div>
 
       </section>
 
-      <!-- Sidebar Area: Active Cart & Live ROI Calculator -->
+      <!-- Sidebar: Cart Panel -->
       <aside class="sidebar-cart-panel" id="cart-aside">
         <div class="sidebar-sticky-inner">
           <div class="cart-header">
@@ -362,21 +348,18 @@
             <span class="cart-item-count-pill"><span id="cart-sidebar-count">0</span> items</span>
           </div>
 
-          <!-- Empty Cart Placeholder -->
+          <!-- Empty State -->
           <div id="cart-empty-state" class="cart-empty-container">
             <div class="empty-icon">🛒</div>
             <h4>Your cart is empty</h4>
-            <p>Complete the business diagnostic audit to unlock your highly tailored AI automations and add them here.</p>
+            <p>Complete the diagnostic audit to unlock your tailored AI workflow recommendations.</p>
           </div>
 
-          <!-- Filled Cart UI -->
+          <!-- Filled Cart -->
           <div id="cart-filled-state" class="cart-filled-container hidden-element">
-            <!-- Selected workflows scroll list -->
-            <ul id="cart-items-list" class="cart-items-deck">
-              <!-- Rendered dynamically by app.js -->
-            </ul>
+            <ul id="cart-items-list" class="cart-items-deck"></ul>
 
-            <!-- Dynamic Interactive ROI Counter Card -->
+            <!-- ROI Summary -->
             <div class="cart-roi-glow-card">
               <div class="roi-glow-header">
                 <div class="roi-pulse"></div>
@@ -394,11 +377,11 @@
               </div>
             </div>
 
-            <!-- Standard vs Express toggle -->
+            <!-- Deployment Timeline -->
             <div class="delivery-options-box">
               <div class="delivery-toggle-label">
                 <strong>Deployment Timeline</strong>
-                <span>Express deployment prioritizes engineering kickoff</span>
+                <span>Express prioritises engineering kickoff</span>
               </div>
               <div class="timeline-switch-group">
                 <label class="timeline-switch-btn">
@@ -418,23 +401,21 @@
               </div>
             </div>
 
-            <!-- Price Breakdown Summary -->
+            <!-- Price Breakdown -->
             <div class="price-breakdown-card">
               <div class="breakdown-row">
-                <span>Monthly Subtotal (Retainer)</span>
+                <span>Monthly Retainer</span>
                 <span class="breakdown-val">$<span id="summary-monthly-subtotal">0</span>/mo</span>
               </div>
               <div class="breakdown-row">
-                <span>One-Time Engineering Setup</span>
+                <span>One-Time Setup</span>
                 <span class="breakdown-val">$<span id="summary-setup-subtotal">0</span></span>
               </div>
               <div class="breakdown-row express-charge-row hidden-element" id="summary-express-row">
-                <span>Express Engineering Kickoff</span>
+                <span>Express Kickoff</span>
                 <span class="breakdown-val text-accent">+$<span id="summary-express-charge">0</span></span>
               </div>
-
               <div class="breakdown-divider"></div>
-
               <div class="breakdown-row total-row">
                 <div>
                   <span class="total-main-label">Estimated First Month</span>
@@ -444,160 +425,111 @@
               </div>
             </div>
 
-            <!-- Action Button -->
+            <!-- Action Buttons -->
             <button id="checkout-trigger-btn" class="btn btn-primary btn-checkout-action btn-glow">
-              <span>Review & Deploy Suite</span>
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <span>Get Your Custom Invoice</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                 <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
               </svg>
             </button>
-            <button id="book-strategy-btn" type="button" class="btn btn-outline" style="width: 100%; margin-top: 10px; border-color: var(--color-cyan); color: var(--color-cyan);">
+            <button id="book-strategy-btn" type="button" class="btn btn-outline" style="width: 100%; margin-top: 10px; border-radius: 12px !important;">
               <span>📅 Book Strategy Call</span>
             </button>
-            <p class="checkout-footer-assurance">🔒 Secured by Mverse.AI Escrow. 100% Satisfaction Guarantee.</p>
+            <p class="checkout-footer-assurance">🔒 Invoiced securely via Zoho Books</p>
           </div>
-
         </div>
       </aside>
 
     </div>
   </main>
 
-  <!-- Interactive Modal: Checkout Panel -->
+  <!-- Checkout Modal — Zoho Books Invoice Flow -->
   <dialog id="checkout-modal" class="checkout-fullscreen-dialog">
     <div class="checkout-dialog-content">
-      <button class="dialog-close-x" commandfor="checkout-modal" command="close" aria-label="Close dialog">×</button>
+      <button class="dialog-close-x" commandfor="checkout-modal" command="close" aria-label="Close">×</button>
 
       <div class="checkout-grid-container">
-        <!-- Billing Details Panel -->
+
+        <!-- Left: Contact Confirmation -->
         <div class="checkout-billing-form-panel">
           <div class="checkout-form-header">
             <span class="secure-badge">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                 <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
               </svg>
-              Secure Mverse.AI Billing Link
+              Secured by Marketingverse
             </span>
-            <h2>Configure Deployment Billing</h2>
-            <p>Deploying a custom-configured AI suite via Mverse.AI. Start your 50% deposit and standard authorization to lock in engineers.</p>
+            <h2>Request Your Invoice</h2>
+            <p>We'll generate a professional invoice via Zoho Books and send it to your email within minutes.</p>
+          </div>
+
+          <!-- Zoho Books info -->
+          <div class="zoho-invoice-info">
+            <h4>📄 How it works</h4>
+            <p>After confirming your selection, our team creates a Zoho Books estimate with your selected automations. You'll receive an email with a secure payment link to complete your order.</p>
+            <span class="zoho-logo-badge">⚡ Powered by Zoho Books</span>
           </div>
 
           <form id="payment-form" novalidate>
             <div class="form-group">
-              <label for="checkout-email" class="form-label">Corporate Contact Email</label>
+              <label for="checkout-email" class="form-label">Confirm Your Email</label>
               <input type="email" id="checkout-email" class="form-input" placeholder="you@company.com" required>
-              <span class="form-error-msg" id="checkout-email-error">Please enter a valid business email</span>
+              <span class="form-error-msg" id="checkout-email-error">Please enter a valid email address</span>
             </div>
 
-            <!-- Stripe Card Cardform Simulator -->
-            <div class="cardform-wrapper">
-              <label class="form-label">Payment Information</label>
-
-              <!-- Glassmorphic Card Preview -->
-              <div class="glass-payment-card-preview" id="payment-card-visual">
-                <div class="glass-card-inner">
-                  <div class="card-front">
-                    <div class="card-chip-brand">
-                      <div class="emv-chip"></div>
-                      <div class="card-brand-logo" id="visual-card-logo">Visa</div>
-                    </div>
-                    <div class="card-number-visual" id="visual-card-number">•••• •••• •••• ••••</div>
-                    <div class="card-meta-row">
-                      <div class="meta-col">
-                        <span class="card-meta-label">Card Holder</span>
-                        <div class="card-meta-val" id="visual-card-holder">YOUR COMPANY</div>
-                      </div>
-                      <div class="meta-col">
-                        <span class="card-meta-label">Expires</span>
-                        <div class="card-meta-val" id="visual-card-expiry">MM/YY</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-back">
-                    <div class="magnetic-strip"></div>
-                    <div class="signature-cvv-row">
-                      <div class="sig-pad">MVERSE.AI SECURE ESCROW</div>
-                      <div class="cvv-visual-box" id="visual-card-cvv">•••</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Credit Card Fields -->
-              <div class="card-inputs-grid">
-                <div class="form-group span-all">
-                  <label for="card-holder-name" class="form-label font-small">Cardholder Name</label>
-                  <input type="text" id="card-holder-name" class="form-input" placeholder="e.g. John Doe" required>
-                  <span class="form-error-msg" id="card-holder-error">Enter name as shown on card</span>
-                </div>
-
-                <div class="form-group span-all">
-                  <label for="card-number" class="form-label font-small">Card Number</label>
-                  <div class="card-number-input-wrapper">
-                    <input type="text" id="card-number" class="form-input font-mono" placeholder="4000 1234 5678 9010" maxlength="19" required>
-                    <span class="input-card-type-icon" id="field-card-icon">💳</span>
-                  </div>
-                  <span class="form-error-msg" id="card-number-error">Please enter a valid card number</span>
-                </div>
-
-                <div class="form-group">
-                  <label for="card-expiry" class="form-label font-small">Expiration Date</label>
-                  <input type="text" id="card-expiry" class="form-input font-mono" placeholder="MM/YY" maxlength="5" required>
-                  <span class="form-error-msg" id="card-expiry-error">Invalid date</span>
-                </div>
-
-                <div class="form-group">
-                  <label for="card-cvv" class="form-label font-small">CVV</label>
-                  <input type="text" id="card-cvv" class="form-input font-mono" placeholder="123" maxlength="4" required>
-                  <span class="form-error-msg" id="card-cvv-error">Invalid CVV</span>
-                </div>
-              </div>
+            <div class="form-group">
+              <label for="checkout-company" class="form-label">Company Name</label>
+              <input type="text" id="checkout-company" class="form-input" placeholder="Your company name" required>
+              <span class="form-error-msg" id="checkout-company-error">Please enter your company name</span>
             </div>
 
             <!-- Authorization Checkbox -->
             <label class="checkout-agreement-checkbox">
               <input type="checkbox" id="terms-accept" required>
               <span class="checkbox-custom"></span>
-              <span class="checkbox-text">I authorize a setup deposit of 50% for the custom engineering phase, and agree to the Mverse.AI Service Level Agreement.</span>
+              <span class="checkbox-text">I confirm the selected automations and authorize Marketingverse to send an invoice to my email address.</span>
             </label>
-            <span class="form-error-msg" id="terms-error">You must accept the terms to deploy</span>
+            <span class="form-error-msg" id="terms-error">You must agree to proceed</span>
 
-            <!-- Submit & Go Back Buttons Grid -->
             <div class="checkout-actions-flex-grid">
               <button type="submit" id="btn-pay-submit" class="btn btn-primary btn-checkout-action btn-glow">
-                <span>Authorize & Deposit $<span id="btn-pay-total">0</span></span>
+                <span>Send My Invoice</span>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
               </button>
               <button type="button" class="btn btn-outline btn-return-cart btn-checkout-action">
-                <span>← Cancel & Go Back</span>
+                ← Go Back
               </button>
             </div>
           </form>
         </div>
 
-        <!-- Order Summary Dashboard Sidebar -->
+        <!-- Right: Order Summary -->
         <div class="checkout-order-summary-sidebar">
           <h3>Suite Configuration</h3>
 
           <ul class="checkout-summary-list" id="checkout-summary-items-list">
-            <!-- Populated dynamically by app.js -->
+            <!-- Populated by app.js -->
           </ul>
 
           <div class="total-escrow-pricing-card">
             <div class="escrow-header">
-              <span>First Month Deposit Total</span>
-              <p>50% setup fee + first month's retainer</p>
+              <span>Total Package Value</span>
+              <p>First month: setup + retainer</p>
             </div>
             <div class="escrow-price-sum">$<span id="checkout-summary-total">0</span></div>
 
             <div class="invoice-installments-schedule">
               <div class="installment">
-                <span>Charged Today (50% Setup + retainer)</span>
+                <span>Invoiced today (50% setup + retainer)</span>
                 <strong>$<span id="schedule-today-charge">0</span></strong>
               </div>
-              <div class="installment text-muted">
-                <span>Charged at System Kickoff (50% Setup balance)</span>
+              <div class="installment">
+                <span>Balance at project kickoff</span>
                 <strong>$<span id="schedule-balance-charge">0</span></strong>
               </div>
             </div>
@@ -607,15 +539,15 @@
             <div class="assurance-item">
               <span class="ass-icon">🛡️</span>
               <div class="ass-text">
-                <strong>Secured Escrow Account</strong>
-                <p>Funds are held until engineering stages are green-lit by your staff.</p>
+                <strong>100% Satisfaction Guarantee</strong>
+                <p>If we can't deliver, you get a full refund — no questions asked.</p>
               </div>
             </div>
             <div class="assurance-item">
               <span class="ass-icon">⚡</span>
               <div class="ass-text">
-                <strong>Rapid Engineering Call</strong>
-                <p>Onboarding architect scheduled immediately after authorization.</p>
+                <strong>Rapid Onboarding Call</strong>
+                <p>Your architect is scheduled within 24 hours of invoice payment.</p>
               </div>
             </div>
           </div>
@@ -624,99 +556,63 @@
     </div>
   </dialog>
 
-  <!-- Interactive Modal: Success Dashboard (confetti triggered) -->
+  <!-- Success Modal -->
   <dialog id="success-modal" class="success-fullscreen-dialog">
     <div class="success-card-content">
       <div class="success-header">
         <div class="success-badge-pulse">✓</div>
-        <h2>Automation Suite Commissioned!</h2>
-        <p>Your AI infrastructure builds are officially underway. Engineering teams are spinning up.</p>
+        <h2>Invoice Request Received!</h2>
+        <p>We're generating your Zoho Books invoice now. Check your email shortly for the secure payment link.</p>
       </div>
 
       <div class="invoice-grid-receipt">
         <div class="receipt-header">
           <div>
-            <h3>Receipt & Statement</h3>
-            <span class="receipt-invoice-num">Invoice ID: <span id="receipt-id" class="font-mono">#MVR-8392-A</span></span>
+            <h3>Confirmation</h3>
+            <span class="receipt-invoice-num">Ref: <span id="receipt-id" class="font-mono">#MVR-0000</span></span>
           </div>
-          <span class="receipt-badge">Deposit Settled</span>
+          <span class="receipt-badge">Invoice Queued</span>
         </div>
 
         <div class="receipt-meta-grid">
           <div>
             <span class="r-label">Client</span>
-            <span class="r-val" id="receipt-client-name">Acme Corp</span>
+            <span class="r-val" id="receipt-client-name">—</span>
           </div>
           <div>
-            <span class="r-label">Date Authorized</span>
-            <span class="r-val" id="receipt-date">May 20, 2026</span>
+            <span class="r-label">Date</span>
+            <span class="r-val" id="receipt-date">—</span>
           </div>
           <div>
-            <span class="r-label">Deployment Plan</span>
-            <span class="r-val text-accent" id="receipt-delivery-tier">Standard Deployment</span>
+            <span class="r-label">Deployment</span>
+            <span class="r-val" id="receipt-delivery-tier">Standard</span>
           </div>
           <div>
-            <span class="r-label">First Bill Settled</span>
-            <span class="r-val" id="receipt-settled-total">$1,250</span>
+            <span class="r-label">Invoice Total</span>
+            <span class="r-val" id="receipt-settled-total">—</span>
           </div>
         </div>
 
         <div class="receipt-items-list-wrapper">
-          <ul class="receipt-items-ul" id="receipt-items-list">
-            <!-- Dynamic receipt items -->
-          </ul>
+          <ul class="receipt-items-ul" id="receipt-items-list"></ul>
         </div>
       </div>
 
-      <!-- Live Booking Scheduler Simulator -->
+      <!-- Book a Call -->
       <div class="booking-scheduler-container">
-        <h3>Schedule Your Technical Integration Audit</h3>
-        <p>Book your 30-minute infrastructure blueprint session with your assigned Lead Automation Architect.</p>
-
-        <div class="calendar-booking-simulator">
-          <div class="cal-days-row">
-            <button class="cal-day">
-              <span class="day-lbl">Thu</span>
-              <span class="day-num">21</span>
-            </button>
-            <button class="cal-day active-day">
-              <span class="day-lbl">Fri</span>
-              <span class="day-num">22</span>
-            </button>
-            <button class="cal-day">
-              <span class="day-lbl">Mon</span>
-              <span class="day-num">25</span>
-            </button>
-            <button class="cal-day">
-              <span class="day-lbl">Tue</span>
-              <span class="day-num">26</span>
-            </button>
-            <button class="cal-day">
-              <span class="day-lbl">Wed</span>
-              <span class="day-num">27</span>
-            </button>
-          </div>
-
-          <div class="cal-slots-grid">
-            <button class="cal-slot">9:00 AM (EST)</button>
-            <button class="cal-slot active-slot">11:30 AM (EST)</button>
-            <button class="cal-slot">2:00 PM (EST)</button>
-            <button class="cal-slot">4:30 PM (EST)</button>
-          </div>
-
-          <button id="confirm-booking-btn" class="btn btn-primary btn-booking">
-            <span>Confirm Onboarding Session: May 22, 11:30 AM</span>
-          </button>
-        </div>
+        <h3>Schedule Your Strategy Session</h3>
+        <p>Book a 30-minute call with your assigned Marketingverse automation architect.</p>
+        <a href="https://api.leadconnectorhq.com/widget/booking/oyFVqTBrTOPpLRpShBRz" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="display: flex; justify-content: center; margin-top: 0.5rem; border-radius: 14px;">
+          📅 Book Your Session
+        </a>
       </div>
 
       <div class="success-footer-actions">
-        <button id="success-done-btn" class="btn btn-outline">Close Dashboard & Return</button>
+        <button id="success-done-btn" class="btn btn-outline" style="border-radius: 14px !important;">Close & Return</button>
       </div>
     </div>
   </dialog>
 
-  <!-- App Application Logic -->
   <script type="module" src="app.js"></script>
 </body>
 </html>

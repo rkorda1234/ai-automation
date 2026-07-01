@@ -3,35 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your AI Automation Proposal — Mverse.AI</title>
-  <meta name="description" content="Your custom AI automation proposal from Mverse.AI">
+  <title>Your AI Automation Proposal — Marketingverse</title>
+  <meta name="description" content="Your custom AI automation proposal from Marketingverse">
   <meta name="robots" content="noindex">
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="proposal.css">
 </head>
-<body class="theme-dark">
-  <div class="glow-orb glow-orb-1" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb-2" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb-3" aria-hidden="true"></div>
+<body>
+
+  <!-- Animated Gradient Background -->
+  <div class="gradient-bg" aria-hidden="true">
+    <div class="g1"></div>
+    <div class="g2"></div>
+    <div class="g3"></div>
+    <div class="g4"></div>
+    <div class="g5"></div>
+  </div>
 
   <header class="app-header">
     <div class="header-container">
       <div class="logo-container">
-        <img src="https://assets.cdn.filesafe.space/CFAAUO2gnPooyim4LdoM/media/6a189e3df58810f313b623a3.png" alt="Marketingverse" class="logo-img">
-        <span class="logo-text">Marketingverse</span>
+        <a href="https://home.the-marketingverse.com/" target="_blank" rel="noopener noreferrer">
+          <img
+            src="https://assets.cdn.filesafe.space/CFAAUO2gnPooyim4LdoM/media/6a189e3df58810f313b623a3.png"
+            alt="Marketingverse"
+            class="logo-img"
+          >
+        </a>
       </div>
-      <nav class="desktop-nav" aria-label="Main Navigation">
-        <ul>
-          <li><a href="https://hello.the-marketingverse.com/" class="nav-link">Home</a></li>
-          <li><a href="https://hello.the-marketingverse.com/broker-engine" class="nav-link">Broker Engine</a></li>
-          <li><a href="https://hello.the-marketingverse.com/social-media" class="nav-link">Social Media</a></li>
-        </ul>
-      </nav>
       <span class="proposal-header-badge">Custom AI Automation Proposal</span>
     </div>
   </header>
@@ -39,7 +44,7 @@
   <main class="proposal-main">
     <div class="container">
 
-      <!-- Loading / Generating State -->
+      <!-- Loading State -->
       <div id="state-loading" class="proposal-state">
         <div class="state-icon-wrap">
           <div class="spinner"></div>
@@ -48,10 +53,10 @@
         <p>Just a moment.</p>
       </div>
 
-      <!-- Generating (polling) State -->
+      <!-- Generating State (polling) -->
       <div id="state-generating" class="proposal-state hidden-element">
         <div class="state-icon-wrap">
-          <div class="spinner spinner-purple"></div>
+          <div class="spinner spinner-blue"></div>
         </div>
         <h2>Your AI agents are building your proposal</h2>
         <p>Our Claude agents are analysing your business profile and generating a custom automation blueprint. This typically takes 30–60 seconds.</p>
@@ -64,23 +69,27 @@
           <span class="state-icon-emoji">⚠️</span>
         </div>
         <h2 id="error-title">Something went wrong</h2>
-        <p id="error-detail">We couldn't load your proposal. Please contact hello@the-marketingverse.com for assistance.</p>
+        <p id="error-detail">We couldn't load your proposal. Please contact <a href="mailto:hello@the-marketingverse.com">hello@the-marketingverse.com</a> for assistance.</p>
       </div>
 
       <!-- Ready State: Full Proposal -->
       <div id="state-ready" class="hidden-element">
 
-        <!-- === HERO === -->
+        <!-- HERO -->
         <section class="prop-section prop-hero">
           <div class="prop-hero-text">
             <div class="hero-badge">Custom AI Automation Proposal</div>
-            <h1 class="hero-heading">Your Personalised Blueprint for <span class="gradient-text glow-text" id="prop-company-name">Your Company</span></h1>
+            <h1 class="hero-heading">
+              Your Personalised Blueprint for<br>
+              <span class="gradient-text" id="prop-company-name">Your Company</span>
+            </h1>
             <p class="hero-subtext" id="prop-executive-summary"></p>
             <div class="prop-meta-row">
               <span class="prop-meta-chip">📅 Prepared <span id="prop-date"></span></span>
-              <span class="prop-meta-chip">⚡ Powered by Mverse.AI</span>
+              <span class="prop-meta-chip">⚡ Powered by Marketingverse AI</span>
             </div>
           </div>
+
           <div class="metric-score-card prop-score-card">
             <div class="circular-progress">
               <svg viewBox="0 0 36 36" class="circular-chart">
@@ -96,7 +105,7 @@
           </div>
         </section>
 
-        <!-- === ROI SUMMARY BAR === -->
+        <!-- ROI SUMMARY BAR -->
         <section class="prop-section prop-roi-bar">
           <div class="roi-bar-grid">
             <div class="roi-bar-item">
@@ -122,21 +131,21 @@
           <p class="roi-benchmark-note" id="roi-benchmark"></p>
         </section>
 
-        <!-- === PAIN POINTS === -->
+        <!-- PAIN POINTS -->
         <section class="prop-section">
           <h2 class="prop-section-title">Identified Pain Points</h2>
-          <p class="prop-section-sub">Based on your diagnostic answers, we identified these operational bottlenecks.</p>
+          <p class="prop-section-sub">Based on your diagnostic, we identified these operational bottlenecks.</p>
           <div id="pain-points-grid" class="pain-points-grid"></div>
         </section>
 
-        <!-- === RECOMMENDATIONS === -->
+        <!-- RECOMMENDATIONS -->
         <section class="prop-section">
           <h2 class="prop-section-title">Your Custom Automation Suite</h2>
           <p class="prop-section-sub">Each recommendation is scoped to your existing tool stack and mapped to a specific business outcome.</p>
           <div id="recommendations-list" class="prop-rec-list"></div>
         </section>
 
-        <!-- === BEFORE / AFTER === -->
+        <!-- BEFORE / AFTER -->
         <section class="prop-section">
           <h2 class="prop-section-title">Transformation Overview</h2>
           <div class="before-after-grid">
@@ -152,13 +161,13 @@
           </div>
         </section>
 
-        <!-- === ROADMAP === -->
+        <!-- ROADMAP -->
         <section class="prop-section">
           <h2 class="prop-section-title">Implementation Roadmap</h2>
           <div id="roadmap-list" class="roadmap-list"></div>
         </section>
 
-        <!-- === RISK REVERSAL === -->
+        <!-- RISK REVERSAL -->
         <section class="prop-section prop-risk-section">
           <div class="risk-inner">
             <span class="risk-icon">🛡️</span>
@@ -169,11 +178,16 @@
           </div>
         </section>
 
-        <!-- === CTA === -->
+        <!-- CTA -->
         <section class="prop-section prop-cta-section">
           <h2>Ready to deploy your automation suite?</h2>
-          <p>Book a 30-minute strategy call with your assigned Mverse.AI architect to lock in your build plan.</p>
-          <a href="https://mverse.ai" class="btn btn-primary btn-glow prop-cta-btn">
+          <p>Book a 30-minute strategy call with your assigned Marketingverse architect to lock in your build plan.</p>
+          <a
+            href="https://api.leadconnectorhq.com/widget/booking/oyFVqTBrTOPpLRpShBRz"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary btn-glow prop-cta-btn"
+          >
             <span>Book Your Strategy Call</span>
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="5" y1="12" x2="19" y2="12"></line>
