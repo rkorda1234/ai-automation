@@ -992,7 +992,7 @@ async function requestZohoInvoice({ email, company, leadId, cart, total, balance
     return wf ? { id: wf.id, name: wf.name, monthly: wf.price, setup: wf.setupFee } : null;
   }).filter(Boolean);
 
-  await fetch('https://www.zohoapis.com/billing/v1/settings/incomingwebhooks/iw_n8n_create_invoices/execute?auth_type=apikey&encapiKey=wSsVR611%2FUX5Wqh8mjKkI%2BY%2Bm1gHVAvyFFN03gCgvyT%2BSKqT%2FNxolE3HAgelHp5wTjYpTWlH7dRG3Hd8rmxh1ppClFBeZxSo%2FGqVd2E0MFVF%2FOi71Q%3D%3D', {
+  await fetch('/api/zoho-invoice', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, company, leadId, items, invoicedToday: total, balance })
