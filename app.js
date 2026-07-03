@@ -1,11 +1,4 @@
 import { launchConfetti } from './confetti.js';
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-
-const supabase = createClient(
-  'https://jusytlefuvoyvprwgxph.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1c3l0bGVmdXZveXZwcndneHBoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMDUxNTgsImV4cCI6MjA5NDg4MTE1OH0.84CATTtrEFehCnynWrK3JMxmZErNnALuMNourzGHkrs',
-  { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }
-);
 
 /* ==========================================================================
    WORKFLOW RECOMMENDATION DATA CATALOG
@@ -655,7 +648,14 @@ function validateStep(step) {
 /* ==========================================================================
    SUBMIT DIAGNOSTICS & RECOMMENDATIONS ENGINE
    ========================================================================== */
-function submitDiagnostics() {
+async function submitDiagnostics() {
+  // Save lead immediately so n8n Workflow 1 fires straight away
+  await saveLead('form_submit');
+
+  // Populate banner email
+  const bannerEmail = document.getElementById('banner-email');
+  if (bannerEmail) bannerEmail.textContent = state.contactEmail || 'your email';
+
   let baseScore = 65;
   baseScore += state.goals.length * 5;
   baseScore += state.roles.length * 4;
@@ -985,7 +985,7 @@ async function requestZohoInvoice({ email, company, leadId, cart, total, balance
     return wf ? { id: wf.id, name: wf.name, monthly: wf.price, setup: wf.setupFee } : null;
   }).filter(Boolean);
 
-  await fetch('https://www.zohoapis.com/billing/v1/settings/incomingwebhooks/iw_n8n_create_invoices/execute?auth_type=apikey&encapiKey=wSsVR611%2FUX5Wqh8mjKkI%2BY%2Bm1gHVAvyFFN03gCgvyT%2BSKqT%2FNxolE3HAgelHp5wTjYpTWlH7dRG3Hd8rmxh1ppClFBeZxSo%2FGqVd2E0MFVF%2FOi71Q%3D%3D', {
+  await fetch('/api/zoho-invoice', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, company, leadId, items, invoicedToday: total, balance })
@@ -1002,32 +1002,38 @@ async function saveLead(submissionType) {
   });
   const expressCharge = state.deliveryTimeline === 'express' ? Math.round(totalSetup * 0.2) : 0;
 
-  const { data, error } = await supabase.from('leads').insert({
-    company_name: state.companyName,
-    industry: state.industry,
-    company_size: state.companySize,
-    goals: state.goals,
-    roles: state.roles,
-    tasks: state.tasks,
-    software_used: state.softwareUsed,
-    bottleneck: state.bottleneck,
-    security_constraints: state.security,
-    contact_name: state.contactName,
-    contact_email: state.contactEmail,
-    contact_phone: state.contactPhone || null,
-    implementation_timeline: state.timeline,
-    selected_workflows: cartItems,
-    delivery_timeline: state.deliveryTimeline,
-    monthly_total: totalMonthly,
-    setup_total: totalSetup,
-    first_month_total: totalMonthly + totalSetup + expressCharge,
-    submission_type: submissionType
-  }).select('id').single();
-
-  if (!error && data?.id) {
-    state.leadId = data.id;
+  try {
+    const res = await fetch('/api/save-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        leadId: state.leadId || null,
+        submissionType,
+        companyName: state.companyName,
+        industry: state.industry,
+        companySize: state.companySize,
+        goals: state.goals,
+        roles: state.roles,
+        tasks: state.tasks,
+        softwareUsed: state.softwareUsed,
+        bottleneck: state.bottleneck,
+        securityConstraints: state.security,
+        contactName: state.contactName,
+        contactEmail: state.contactEmail,
+        contactPhone: state.contactPhone || null,
+        implementationTimeline: state.timeline,
+        selectedWorkflows: cartItems,
+        deliveryTimeline: state.deliveryTimeline,
+        monthlyTotal: totalMonthly,
+        setupTotal: totalSetup,
+        firstMonthTotal: totalMonthly + totalSetup + expressCharge,
+      }),
+    });
+    const data = await res.json();
+    if (data?.id) state.leadId = data.id;
+  } catch (err) {
+    console.error('[saveLead] fetch error:', err.message);
   }
-
   return state.leadId;
 }
 
