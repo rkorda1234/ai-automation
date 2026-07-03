@@ -1,11 +1,4 @@
 import { launchConfetti } from './confetti.js';
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-
-const supabase = createClient(
-  'https://jusytlefuvoyvprwgxph.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1c3l0bGVmdXZveXZwcndneHBoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMDUxNTgsImV4cCI6MjA5NDg4MTE1OH0.84CATTtrEFehCnynWrK3JMxmZErNnALuMNourzGHkrs',
-  { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }
-);
 
 /* ==========================================================================
    WORKFLOW RECOMMENDATION DATA CATALOG
@@ -1009,44 +1002,38 @@ async function saveLead(submissionType) {
   });
   const expressCharge = state.deliveryTimeline === 'express' ? Math.round(totalSetup * 0.2) : 0;
 
-  // If lead already saved on form submit, update the row with cart data
-  if (state.leadId && submissionType !== 'form_submit') {
-    await supabase.from('leads').update({
-      selected_workflows: cartItems,
-      delivery_timeline: state.deliveryTimeline,
-      monthly_total: totalMonthly,
-      setup_total: totalSetup,
-      first_month_total: totalMonthly + totalSetup + expressCharge,
-      submission_type: submissionType
-    }).eq('id', state.leadId);
-    return state.leadId;
+  try {
+    const res = await fetch('/api/save-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        leadId: state.leadId || null,
+        submissionType,
+        companyName: state.companyName,
+        industry: state.industry,
+        companySize: state.companySize,
+        goals: state.goals,
+        roles: state.roles,
+        tasks: state.tasks,
+        softwareUsed: state.softwareUsed,
+        bottleneck: state.bottleneck,
+        securityConstraints: state.security,
+        contactName: state.contactName,
+        contactEmail: state.contactEmail,
+        contactPhone: state.contactPhone || null,
+        implementationTimeline: state.timeline,
+        selectedWorkflows: cartItems,
+        deliveryTimeline: state.deliveryTimeline,
+        monthlyTotal: totalMonthly,
+        setupTotal: totalSetup,
+        firstMonthTotal: totalMonthly + totalSetup + expressCharge,
+      }),
+    });
+    const data = await res.json();
+    if (data?.id) state.leadId = data.id;
+  } catch (err) {
+    console.error('[saveLead] fetch error:', err.message);
   }
-
-  // First save — on form submission
-  const { data, error } = await supabase.from('leads').insert({
-    company_name: state.companyName,
-    industry: state.industry,
-    company_size: state.companySize,
-    goals: state.goals,
-    roles: state.roles,
-    tasks: state.tasks,
-    software_used: state.softwareUsed,
-    bottleneck: state.bottleneck,
-    security_constraints: state.security,
-    contact_name: state.contactName,
-    contact_email: state.contactEmail,
-    contact_phone: state.contactPhone || null,
-    implementation_timeline: state.timeline,
-    selected_workflows: cartItems,
-    delivery_timeline: state.deliveryTimeline,
-    monthly_total: totalMonthly,
-    setup_total: totalSetup,
-    first_month_total: totalMonthly + totalSetup + expressCharge,
-    submission_type: submissionType
-  }).select('id').single();
-
-  if (error) console.error('[saveLead] Supabase error:', error?.status, error?.code, error?.message, error?.hint, JSON.stringify(error));
-  if (!error && data?.id) state.leadId = data.id;
   return state.leadId;
 }
 
