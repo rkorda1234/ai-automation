@@ -109,14 +109,6 @@ export default async function handler(req, res) {
       }
     }
 
-    // Trigger n8n proposal generation after a new form_submit lead is saved
-    if (submissionType === 'form_submit' && resultId) {
-      await fetch(
-        `https://marketingverse.app.n8n.cloud/webhook/generate-proposal?leadId=${encodeURIComponent(resultId)}`,
-        { method: 'GET' }
-      ).catch(e => console.error('[save-lead] n8n proposal webhook error:', e.message));
-    }
-
     // Slack notification on diagnostics form submit
     if (submissionType === 'form_submit' && slackUrl) {
       const goalsText = Array.isArray(goals) ? goals.join(', ') : (goals || '—');
