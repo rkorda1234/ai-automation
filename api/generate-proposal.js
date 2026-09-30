@@ -58,13 +58,18 @@ export default async function handler(req, res) {
 
     // Call Claude
     const prompt = buildPrompt(lead);
+    const anthropicHeaders = {
+      'Content-Type': 'application/json',
+      'x-api-key': anthropicKey,
+      'anthropic-version': '2023-06-01',
+    };
+    if (process.env.ANTHROPIC_WORKSPACE_ID) {
+      anthropicHeaders['anthropic-workspace-id'] = process.env.ANTHROPIC_WORKSPACE_ID;
+    }
+
     const claudeRes = await fetch(ANTHROPIC_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': anthropicKey,
-        'anthropic-version': '2023-06-01',
-      },
+      headers: anthropicHeaders,
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 4096,

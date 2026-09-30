@@ -136,9 +136,9 @@ export default async function handler(req, res) {
             if (searchData.contacts?.length > 0) {
               ghlContactId = searchData.contacts[0].id;
               console.log('[save-lead] GHL existing contact:', ghlContactId);
-              // Update tags on existing contact
-              fetch(`${GHL_BASE}/contacts/${ghlContactId}`, {
-                method: 'PUT',
+              // Add tags to existing contact (POST /tags adds without replacing)
+              fetch(`${GHL_BASE}/contacts/${ghlContactId}/tags`, {
+                method: 'POST',
                 headers: ghlHeaders,
                 body: JSON.stringify({ tags: ['mverse-ai', 'form_submit'] }),
               }).catch(e => console.error('[save-lead] GHL tag update error:', e.message));
