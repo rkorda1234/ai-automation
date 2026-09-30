@@ -203,6 +203,16 @@ export default async function handler(req, res) {
           },
           body: JSON.stringify({ lead_id: resultId, status: 'generating' }),
         }).catch(e => console.error('[save-lead] Proposal row error:', e.message));
+
+        // Trigger proposal generation server-to-server so the browser navigating away can't cancel it
+        const appBase = process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
+          : 'https://proposal.the-marketingverse.com';
+        fetch(`${appBase}/api/generate-proposal`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ leadId: resultId }),
+        }).catch(e => console.error('[save-lead] generate-proposal trigger error:', e.message));
       }
     }
 
