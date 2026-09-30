@@ -649,8 +649,16 @@ function validateStep(step) {
    SUBMIT DIAGNOSTICS & RECOMMENDATIONS ENGINE
    ========================================================================== */
 async function submitDiagnostics() {
-  // Save lead immediately so n8n Workflow 1 fires straight away
   await saveLead('form_submit');
+
+  // Fire proposal generation in background — proposal page polls Supabase for the result
+  if (state.leadId) {
+    fetch('/api/generate-proposal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ leadId: state.leadId }),
+    }).catch(e => console.error('[submitDiagnostics] generate-proposal error:', e.message));
+  }
 
   // Populate banner email
   const bannerEmail = document.getElementById('banner-email');

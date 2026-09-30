@@ -1,4 +1,5 @@
 const SUPABASE_URL = 'https://jusytlefuvoyvprwgxph.supabase.co';
+const GHL_BASE = 'https://services.leadconnectorhq.com';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -106,6 +107,102 @@ export default async function handler(req, res) {
       } else {
         const errText = await insertRes.text();
         console.error('[save-lead] Supabase INSERT error:', insertRes.status, errText);
+      }
+
+      // GHL contact upsert + opportunity on form_submit
+      if (submissionType === 'form_submit' && resultId) {
+        const ghlKey = process.env.GHL_API_KEY;
+        const locationId = process.env.GHL_LOCATION_ID || 'CFAAUO2gnPooyim4LdoM';
+        const assignedTo = process.env.GHL_ASSIGNED_TO || 'SFwaytDY2HvU0FfEs8LN';
+        const pipelineId = process.env.GHL_PIPELINE_ID;
+        const stageId = process.env.GHL_STAGE_ID;
+
+        if (ghlKey) {
+          const ghlHeaders = {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${ghlKey}`,
+            Version: '2021-07-28',
+          };
+
+          let ghlContactId = null;
+
+          // Search existing contact by email
+          try {
+            const searchRes = await fetch(
+              `${GHL_BASE}/contacts/?query=${encodeURIComponent(contactEmail)}&locationId=${locationId}`,
+              { headers: ghlHeaders }
+            );
+            const searchData = await searchRes.json();
+            if (searchData.contacts?.length > 0) {
+              ghlContactId = searchData.contacts[0].id;
+              console.log('[save-lead] GHL existing contact:', ghlContactId);
+            }
+          } catch (e) {
+            console.error('[save-lead] GHL search error:', e.message);
+          }
+
+          // Create contact if not found
+          if (!ghlContactId) {
+            const nameParts = (contactName || '').trim().split(/\s+/);
+            try {
+              const createRes = await fetch(`${GHL_BASE}/contacts/`, {
+                method: 'POST',
+                headers: ghlHeaders,
+                body: JSON.stringify({
+                  firstName: nameParts[0] || '',
+                  lastName: nameParts.slice(1).join(' ') || '',
+                  email: contactEmail,
+                  phone: contactPhone || null,
+                  companyName,
+                  locationId,
+                  source: 'Mverse.AI Diagnostic',
+                  assignedTo,
+                  tags: ['mverse-ai', 'form_submit'],
+                }),
+              });
+              const createData = await createRes.json();
+              // Handle both success and duplicate-contact error
+              ghlContactId = createData.contact?.id || createData.meta?.contactId || null;
+              console.log('[save-lead] GHL contact created/found:', ghlContactId);
+            } catch (e) {
+              console.error('[save-lead] GHL create error:', e.message);
+            }
+          }
+
+          // Create opportunity
+          if (ghlContactId && pipelineId) {
+            try {
+              await fetch(`${GHL_BASE}/opportunities/`, {
+                method: 'POST',
+                headers: ghlHeaders,
+                body: JSON.stringify({
+                  pipelineId,
+                  pipelineStageId: stageId || undefined,
+                  contactId: ghlContactId,
+                  name: `AI Automation — ${companyName}`,
+                  status: 'open',
+                  assignedTo,
+                  source: 'Mverse.AI Diagnostic',
+                }),
+              });
+              console.log('[save-lead] GHL opportunity created for contact:', ghlContactId);
+            } catch (e) {
+              console.error('[save-lead] GHL opportunity error:', e.message);
+            }
+          }
+        }
+
+        // Create proposal row as 'generating' so the proposal page shows the right state
+        await fetch(`${SUPABASE_URL}/rest/v1/proposals`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            apikey: serviceKey,
+            Authorization: `Bearer ${serviceKey}`,
+            Prefer: 'return=minimal',
+          },
+          body: JSON.stringify({ lead_id: resultId, status: 'generating' }),
+        }).catch(e => console.error('[save-lead] Proposal row error:', e.message));
       }
     }
 
