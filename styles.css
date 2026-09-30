@@ -423,6 +423,7 @@ p {
 /* Step Progress Bar */
 .step-tracker-bar {
   margin-bottom: 3.5rem;
+  margin-top: 0.5rem;
   position: relative;
   background-color: var(--color-border-subtle);
   height: 3px;
@@ -440,7 +441,7 @@ p {
   display: flex;
   justify-content: space-between;
   position: absolute;
-  top: -12px;
+  bottom: calc(100% + 10px);
   width: 100%;
 }
 
