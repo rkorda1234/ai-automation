@@ -660,6 +660,9 @@ async function submitDiagnostics() {
     }).catch(e => console.error('[submitDiagnostics] generate-proposal error:', e.message));
   }
 
+  // Show the proposal-building banner and link now that we have a leadId
+  showProposalLink();
+
   // Populate banner email
   const bannerEmail = document.getElementById('banner-email');
   if (bannerEmail) bannerEmail.textContent = state.contactEmail || 'your email';
