@@ -61,6 +61,12 @@ async function loadProposal(leadId) {
   if (data.status === 'generating') {
     show('state-generating');
     startPolling(leadId);
+    // Trigger generation from the proposal page — this page stays open so the request won't be cancelled
+    fetch('/api/generate-proposal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ leadId }),
+    }).catch(() => {});
     return;
   }
 
