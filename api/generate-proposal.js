@@ -112,76 +112,94 @@ export default async function handler(req, res) {
   }
 }
 
+const WORKFLOW_MAP = {
+  responder:  { name: '24/7 Smart Email Assistant',            price: 299 },
+  enrichment: { name: 'Lead Scout & Automated Outreach',       price: 399 },
+  invoicing:  { name: 'Automated Bookkeeper & Receipt Reader', price: 199 },
+  meetings:   { name: 'Meeting Secretary & Auto-Tasker',       price: 149 },
+  seo:        { name: 'AI Product Writer & Social Copywriter', price: 249 },
+  chatbot:    { name: '24/7 Smart Web Assistant',              price: 449 },
+};
+
 function buildPrompt(lead) {
   const fmt = v => (Array.isArray(v) ? v.join(', ') : v || 'Not specified');
 
-  return `You are a senior AI automation consultant at Marketingverse. Analyse the business profile below and output a single JSON object — no markdown, no commentary, just the raw JSON.
+  const selectedWorkflows = (lead.selected_workflows || []).map(w => ({
+    key: w,
+    name: WORKFLOW_MAP[w]?.name || w,
+    price: WORKFLOW_MAP[w]?.price || 0,
+  }));
+  const workflowsStr = selectedWorkflows.length
+    ? selectedWorkflows.map(w => `${w.name} ($${w.price}/mo)`).join(', ')
+    : 'Not specified';
 
-## Business Profile
+  return `You are a senior AI automation strategist with deep expertise implementing automation stacks for small and mid-size businesses.
+
+CRITICAL RULES:
+- ONLY recommend automations that integrate with the tools the business already uses (listed under "Current Software"). Do NOT suggest tools or platforms they did not mention.
+- Base every recommendation on evidence from their actual answers — their specific bottleneck, goals, roles, and tasks.
+- Do not use generic recommendations. Every section must reference their company name, industry, or stated problems.
+
+BUSINESS PROFILE:
 - Company: ${lead.company_name}
 - Industry: ${lead.industry}
-- Company Size: ${lead.company_size}
+- Size: ${lead.company_size}
 - Goals: ${fmt(lead.goals)}
-- Team Roles: ${fmt(lead.roles)}
-- Key Tasks / Processes: ${fmt(lead.tasks)}
-- Current Software Stack: ${fmt(lead.software_used)}
+- Key Roles affected: ${fmt(lead.roles)}
+- Current Tasks to automate: ${fmt(lead.tasks)}
+- Current Software (ONLY build recommendations around these tools): ${fmt(lead.software_used)}
 - Main Bottleneck: ${fmt(lead.bottleneck)}
-- Security Constraints: ${fmt(lead.security_constraints)}
+- Security Requirements: ${fmt(lead.security_constraints)}
 - Implementation Timeline: ${fmt(lead.implementation_timeline)}
+- Selected Automations: ${workflowsStr}
+- Monthly Budget: $${lead.monthly_total || 0}/mo
 
-## Required JSON Schema
+Before generating the proposal, internally reason through:
+1. What are their 3-5 biggest time/money drains based on their bottleneck, tasks, and roles?
+2. Which of their selected automations directly address those drains?
+3. What ROI is realistic given their size and budget?
+4. How does their existing software stack (and ONLY that stack) shape the implementation?
+
+Generate a detailed, personalized proposal as a JSON object with EXACTLY this structure (no markdown, pure JSON):
+
 {
-  "executiveSummary": "2-3 sentences summarising their biggest automation opportunity and expected impact",
-  "readinessScore": <integer 1-10>,
-  "readinessDiagnosis": "short label e.g. 'Strong Foundation' | 'Early Stage' | 'Ready to Scale'",
-  "totalTimeSavedPerWeek": <integer hours saved across all recommendations>,
-  "totalMonthlyValue": <integer dollar value of time saved + revenue impact>,
-  "totalROI": "<string e.g. '8x' or '340%'>",
-  "paybackPeriodDays": <integer>,
-  "industryBenchmark": "one sentence comparing their score to similar ${lead.industry} businesses",
+  "readinessScore": <number 1-10, based on how ready they are for AI automation>,
+  "readinessDiagnosis": "<2 sentences explaining the score>",
+  "executiveSummary": "<3-4 sentences personalised to their company, bottleneck and goals>",
   "painPoints": [
-    {
-      "urgency": "high | medium | low",
-      "title": "Short pain point title",
-      "description": "Specific description tied to their answers"
-    }
+    { "title": "<pain point title>", "description": "<why this hurts their business>", "urgency": "high|medium|low" }
   ],
   "recommendations": [
     {
-      "key": "responder | enrichment | invoicing | meetings | seo | chatbot",
-      "name": "Automation name",
-      "tagline": "One-line value tagline",
-      "description": "What the automation does day-to-day",
-      "whyThisMatters": "Why this is especially valuable for ${lead.company_name}",
-      "toolsUsed": "Comma-separated tools from their stack or logical additions",
-      "implementationWeek": <1-4>,
-      "complexity": "easy | medium | advanced",
-      "quickWin": <true | false>,
-      "timeSavedPerWeek": <integer hours>,
-      "monthlyValue": <integer dollars>,
-      "roi": "<string e.g. '5x'>",
-      "monthlyCost": <integer dollars>
+      "key": "<workflow key from: responder|enrichment|invoicing|meetings|seo|chatbot>",
+      "name": "<automation name>",
+      "tagline": "<punchy one-liner>",
+      "description": "<what it does in plain english, 2 sentences>",
+      "whyThisMatters": "<specific to their company and bottleneck, 2 sentences>",
+      "toolsUsed": "<only tools from their Current Software list>",
+      "timeSavedPerWeek": <hours as number>,
+      "monthlyCost": <price as number>,
+      "monthlyValue": <estimated dollar value generated or saved as number>,
+      "roi": "<e.g. 8x>",
+      "paybackDays": <number>,
+      "complexity": "easy|medium|advanced",
+      "implementationWeek": <1|2|3|4>,
+      "quickWin": <true if high impact + easy>
     }
   ],
+  "totalTimeSavedPerWeek": <sum of all timeSavedPerWeek>,
+  "totalMonthlyValue": <sum of all monthlyValue>,
+  "totalROI": "<overall ROI multiplier e.g. '8x'>",
+  "paybackPeriodDays": <average payback across recommendations>,
+  "industryBenchmark": "<one sentence: what companies like theirs typically achieve with this stack>",
   "beforeAfter": {
-    "before": "Vivid description of their current manual, painful state",
-    "after": "Vivid description of their transformed, automated state"
+    "before": "<describe their biggest workflow pain point as it is today>",
+    "after": "<describe that same workflow after automation, specific and vivid>"
   },
   "implementationRoadmap": [
-    {
-      "week": <1-4>,
-      "name": "Phase name",
-      "description": "What gets built and delivered this week"
-    }
+    { "week": <number>, "name": "<milestone title>", "description": "<what gets done>" }
   ],
-  "riskReversal": "Our concrete guarantee to ${lead.company_name}"
-}
-
-## Rules
-- Include 3-5 pain points grounded in their specific answers
-- Include 3-5 recommendations that match tools in their stack (${fmt(lead.software_used)})
-- timeSavedPerWeek values must sum to totalTimeSavedPerWeek
-- monthlyValue values must sum to totalMonthlyValue
-- Keep all figures realistic and defensible for a ${lead.company_size} company in ${lead.industry}
-- Output ONLY the JSON object — no other text`;
+  "riskLevel": "low|medium|high",
+  "riskReversal": "<one sentence guarantee specific to their situation>"
+}`;
 }
