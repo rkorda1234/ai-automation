@@ -58,9 +58,16 @@
         <div class="state-icon-wrap">
           <div class="spinner spinner-blue"></div>
         </div>
-        <h2>Your AI agents are building your proposal</h2>
-        <p>Our Claude agents are analysing your business profile and generating a custom automation blueprint. This typically takes 30–60 seconds.</p>
+        <h2>We're cooking up your proposal 🍳</h2>
+        <p>Our AI is analysing your business profile and generating a custom automation blueprint. This typically takes 30–60 seconds.</p>
         <p class="polling-note">This page will refresh automatically.</p>
+        <button
+          onclick="document.querySelector('#chat-widget-container, lc-chat-widget, [data-widget-id]')?.click?.(); window.lcChatWidget?.open?.();"
+          class="btn btn-outline"
+          style="margin-top:1.5rem; display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.5rem; border-radius:12px; cursor:pointer; font-size:0.95rem;"
+        >
+          💬 <span>Chat with us</span>
+        </button>
       </div>
 
       <!-- Error State -->
@@ -214,5 +221,6 @@
   </main>
 
   <script type="module" src="proposal.js"></script>
+  <script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6a6b67977ae3f00a81b55974"></script>
 </body>
 </html>
