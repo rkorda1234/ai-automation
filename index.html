@@ -212,6 +212,12 @@
                   <label class="software-chip"><input type="checkbox" name="software" value="WhatsApp"><div class="chip-inner"><span class="chip-icon">📱</span><span>WhatsApp</span></div></label>
                   <label class="software-chip"><input type="checkbox" name="software" value="QuickBooks"><div class="chip-inner"><span class="chip-icon">💰</span><span>QuickBooks</span></div></label>
                   <label class="software-chip"><input type="checkbox" name="software" value="Apple Mail"><div class="chip-inner"><span class="chip-icon">✉️</span><span>Apple Mail</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="Zoho Books"><div class="chip-inner"><span class="chip-icon">📒</span><span>Zoho Books</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="FollowUp Boss"><div class="chip-inner"><span class="chip-icon">🏠</span><span>FollowUp Boss</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="Claude AI"><div class="chip-inner"><span class="chip-icon">🤖</span><span>Claude AI</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="ChatGPT"><div class="chip-inner"><span class="chip-icon">💡</span><span>ChatGPT</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="Freshdesk"><div class="chip-inner"><span class="chip-icon">🎧</span><span>Freshdesk</span></div></label>
+                  <label class="software-chip"><input type="checkbox" name="software" value="ClickUp"><div class="chip-inner"><span class="chip-icon">✅</span><span>ClickUp</span></div></label>
                   <label class="software-chip" id="software-other-chip"><input type="checkbox" name="software" value="other" id="software-other-cb"><div class="chip-inner"><span class="chip-icon">➕</span><span>Other</span></div></label>
                 </div>
                 <input type="text" id="software-other-input" class="form-input software-other-input hidden-element" placeholder="Type other tools, e.g. Shopify, Zendesk…">
@@ -314,9 +320,13 @@
           </div>
 
           <!-- Proposal link banner — shown after diagnostic submit -->
-          <div id="proposal-building-banner" style="display:none; align-items:center; gap:0.75rem; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; padding:1rem 1.25rem; border-radius:14px; margin-bottom:1rem;">
-            <span style="font-size:1.3rem;">🔗</span>
-            <p style="margin:0; font-size:0.9rem; line-height:1.4;">Your personalised proposal is being built — <a id="proposal-link" href="#" target="_blank" style="color:#fff; font-weight:700; text-decoration:underline;">view it here →</a></p>
+          <div id="proposal-building-banner" style="display:none; flex-direction:column; align-items:center; gap:1rem; background:linear-gradient(135deg,#4f46e5,#7c3aed); color:#fff; padding:1.75rem 2rem; border-radius:18px; margin-bottom:1.5rem; text-align:center; box-shadow:0 8px 32px rgba(99,102,241,0.35);">
+            <div style="font-size:2rem;">🚀</div>
+            <div>
+              <p style="margin:0 0 0.25rem; font-size:1.15rem; font-weight:700; color:#fff; letter-spacing:-0.01em;">Your personalised proposal is being built!</p>
+              <p style="margin:0; font-size:0.9rem; color:rgba(255,255,255,0.8);">Our AI agents are crafting your custom automation blueprint right now.</p>
+            </div>
+            <a id="proposal-link" href="#" target="_blank" style="display:inline-flex; align-items:center; gap:0.5rem; background:#fff; color:#4f46e5; font-weight:700; font-size:1rem; text-decoration:none; padding:0.75rem 1.75rem; border-radius:99px; box-shadow:0 4px 16px rgba(0,0,0,0.15); transition:opacity 0.2s;">View Your Proposal →</a>
           </div>
 
           <div class="results-filters-bar">
