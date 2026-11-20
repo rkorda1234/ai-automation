@@ -103,12 +103,6 @@ export default async function handler(req, res) {
     }
 
     console.log('[generate-proposal] Done for lead', leadId);
-
-    // Fire-and-forget proposal email (non-blocking)
-    sendProposalEmail(lead, leadId).catch(e =>
-      console.error('[generate-proposal] Email error:', e.message)
-    );
-
     return res.status(200).json({ proposalId });
   } catch (err) {
     console.error('[generate-proposal] Error:', err.message);
@@ -121,67 +115,6 @@ export default async function handler(req, res) {
     }
     return res.status(500).json({ error: err.message });
   }
-}
-
-async function sendProposalEmail(lead, leadId) {
-  const resendKey = process.env.RESEND_API_KEY;
-  if (!resendKey) {
-    console.log('[generate-proposal] RESEND_API_KEY not set — skipping email');
-    return;
-  }
-
-  const proposalUrl = `https://proposal.the-marketingverse.com/${leadId}`;
-  const firstName = (lead.contact_name || '').trim().split(/\s+/)[0] || 'there';
-
-  const html = `
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#f8f7ff;font-family:'Inter',Arial,sans-serif;">
-  <div style="max-width:580px;margin:40px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(99,102,241,0.1);">
-    <div style="background:linear-gradient(135deg,#4f46e5,#7c3aed);padding:40px 40px 32px;text-align:center;">
-      <p style="margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Marketingverse AI</p>
-      <h1 style="margin:0;font-size:26px;font-weight:800;color:#fff;line-height:1.3;">Your AI Automation Proposal<br>is Ready, ${firstName}! 🚀</h1>
-    </div>
-    <div style="padding:36px 40px;">
-      <p style="margin:0 0 20px;font-size:15px;line-height:1.7;color:#374151;">
-        We've built a custom AI automation blueprint for <strong>${lead.company_name || 'your business'}</strong> based on your diagnostic answers.
-        Your proposal includes personalised recommendations, ROI projections, and an implementation roadmap tailored to your team.
-      </p>
-      <div style="text-align:center;margin:32px 0;">
-        <a href="${proposalUrl}" style="display:inline-block;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;font-weight:700;font-size:16px;text-decoration:none;padding:16px 36px;border-radius:99px;box-shadow:0 4px 16px rgba(79,70,229,0.4);">View Your Proposal →</a>
-      </div>
-      <p style="margin:0 0 8px;font-size:13px;color:#9ca3af;text-align:center;">Or copy this link:</p>
-      <p style="margin:0 0 32px;font-size:12px;color:#6366f1;text-align:center;word-break:break-all;">${proposalUrl}</p>
-      <hr style="border:none;border-top:1px solid #f3f4f6;margin:0 0 24px;">
-      <p style="margin:0;font-size:13px;color:#9ca3af;text-align:center;">
-        Questions? Reply to this email or book a strategy call at
-        <a href="https://api.leadconnectorhq.com/widget/bookings/marketingverse-demo" style="color:#6366f1;text-decoration:none;">marketingverse-demo</a>
-      </p>
-    </div>
-  </div>
-</body>
-</html>`;
-
-  const emailRes = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${resendKey}`,
-    },
-    body: JSON.stringify({
-      from: 'Marketingverse <hello@the-marketingverse.com>',
-      to: [lead.contact_email],
-      subject: `Your AI Automation Proposal is Ready, ${firstName}!`,
-      html,
-    }),
-  });
-
-  if (!emailRes.ok) {
-    const err = await emailRes.text();
-    throw new Error(`Resend error ${emailRes.status}: ${err}`);
-  }
-  console.log('[generate-proposal] Proposal email sent to', lead.contact_email);
 }
 
 const WORKFLOW_MAP = {
